@@ -12,7 +12,7 @@ const KPICard = ({
 }) => {
   return (
     /* 🎯 REFACTORED CONTAINER: Completely borderless frame matching the core dashboard shadow layout */
-    <div className="bg-white p-6 rounded-3xl shadow-[0_20px_50px_-12px_rgba(0,0,0,0.03)] hover:shadow-[0_24px_60px_-10px_rgba(0,0,0,0.06)] relative overflow-hidden group transition-all duration-500 ease-out">
+    <div className="bg-white p-6 rounded-3xl shadow-[0_20px_50px_-12px_rgba(0,0,0,0.03)] hover:shadow-[0_24px_60px_-10px_rgba(0,0,0,0.06)] relative overflow-hidden group transition-all duration-500 ease-out border border-slate-100/40">
       {/* Subtle brand glow orbs matching your Burgundy/Gold canvas specs */}
       <div
         className={`absolute -right-6 -bottom-6 w-28 h-28 rounded-full blur-3xl opacity-0 group-hover:opacity-[0.06] transition-opacity duration-700 ease-out ${colorClass}`}
@@ -53,7 +53,7 @@ const KPICard = ({
         </div>
 
         {/* 🎯 MINIMALIST ICON BASE: Clean soft background tint that scales organically on group hover */}
-        <div className="p-3 rounded-2xl bg-slate-50 border border-slate-100/50 text-xl group-hover:scale-105 group-hover:bg-white group-hover:shadow-md group-hover:shadow-slate-100/50 transition-all duration-500 ease-out">
+        <div className="p-3 rounded-2xl bg-slate-50 border border-slate-100/50 text-xl group-hover:scale-105 group-hover:bg-white group-hover:shadow-md group-hover:shadow-slate-100/50 transition-all duration-500 ease-out flex items-center justify-center min-w-[44px] min-h-[44px]">
           <Icon />
         </div>
       </div>
@@ -76,13 +76,31 @@ export function ExecutiveKPIs() {
       ),
     },
     {
+      title: "Budget Utilization (BUR)",
+      value: "87.4%",
+      metricContext: "efficiency",
+      change: "+4.1%",
+      isPositive: true,
+      colorClass: "bg-[#C5A059]", // Satin Gold Glow Asset
+      icon: () => <span className="text-[#660033] font-bold text-lg">📊</span>,
+    },
+    {
+      title: "Board Passing Velocity",
+      value: "81.6%",
+      metricContext: "institutional",
+      change: "+5.3%",
+      isPositive: true,
+      colorClass: "bg-[#660033]", // Burgundy Glow Asset
+      icon: () => <span className="drop-shadow-sm">⚖️</span>,
+    },
+    {
       title: "Research Funding Secured",
       value: "₱32.8M",
       metricContext: "php",
       change: "+14.2%",
       isPositive: true,
       colorClass: "bg-[#C5A059]", // Satin Gold Glow Asset
-      icon: () => <span className="text-[#660033] font-semibold">₱</span>,
+      icon: () => <span className="text-[#600018] font-bold text-base">₱</span>,
     },
     {
       title: "Active Institutional Grants",
@@ -96,11 +114,29 @@ export function ExecutiveKPIs() {
     {
       title: "Faculty Publication Rate",
       value: "84.2%",
-      metricContext: "retention",
+      metricContext: "indexed",
       change: "+2.4%",
       isPositive: true,
       colorClass: "bg-[#660033]", // Burgundy Glow Asset
       icon: () => <span className="drop-shadow-sm">📄</span>,
+    },
+    {
+      title: "Infrastructure Modernization",
+      value: "92.1%",
+      metricContext: "utilization",
+      change: "+8.5%",
+      isPositive: true,
+      colorClass: "bg-[#C5A059]", // Satin Gold Glow Asset
+      icon: () => <span className="drop-shadow-sm">🏢</span>,
+    },
+    {
+      title: "Extension Footprint",
+      value: "2,450",
+      metricContext: "beneficiaries",
+      change: "+11.9%",
+      isPositive: true,
+      colorClass: "bg-[#660033]", // Burgundy Glow Asset
+      icon: () => <span className="drop-shadow-sm">🌱</span>,
     },
   ];
 

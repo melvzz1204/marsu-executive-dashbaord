@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import ExecutiveKPIs from "../components/ExecutiveKPIs";
 import EnrollmentChart from "../components/EnrollmentChart";
 import ResearchMetrics from "../components/ResearchMetrics";
+import BudgetUtilization from "../components/BudgetUtilization"; // Imported the new component
 import marsuLogo from "../assets/marsu-logo.png";
 
 // Quick inline rendering of a Pie Chart component to round out the distribution metrics
@@ -238,6 +239,25 @@ function MainDashboard() {
         </svg>
       ),
     },
+    {
+      id: "budget",
+      label: "Budget Utilization",
+      icon: (
+        <svg
+          className="w-5 h-5"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          viewBox="0 0 24 24"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
+          />
+        </svg>
+      ),
+    },
   ];
 
   return (
@@ -346,10 +366,10 @@ function MainDashboard() {
       {/* Main Content Panel Area */}
       <div className="flex-1 flex flex-col min-w-0 overflow-y-auto">
         <main className="p-8 lg:p-12 space-y-10 max-w-screen-2xl w-full mx-auto">
-          {/* 🎯 HEADER ACTION CONTROL STRIP RESTORED */}
+          {/* 🎯 HEADER ACTION CONTROL STRIP */}
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 pb-6 border-b border-slate-200">
             <div>
-              <div className="flex items-center gap-2 text-xs font-bold tracking-widest uppercase mb-1">
+              <div className="flex items-center gap-2 text-xs font-bold tracking-widest tracking-widest uppercase mb-1">
                 <span className="text-[#600018]">Command Center</span>
                 <span className="text-slate-300">/</span>
                 <span className="text-white bg-[#600018] px-2 py-0.5 rounded-md font-oswald">
@@ -361,9 +381,8 @@ function MainDashboard() {
               </h2>
             </div>
 
-            {/* Restored Action Wrapper Containing Theme Switch, Divider, & Profiles */}
+            {/* Action Wrapper Containing Theme Switch, Divider, & Profiles */}
             <div className="flex items-center gap-4 self-end md:self-auto bg-white px-5 py-2.5 rounded-2xl border border-slate-200/60 shadow-sm">
-              {/* RESTORED DARK MODE TOGGLE */}
               <button
                 onClick={() => setIsDarkMode(!isDarkMode)}
                 className="relative flex items-center justify-between bg-slate-100 h-8 w-14 rounded-full p-1 cursor-pointer transition-colors duration-300 focus:outline-none border border-slate-200/40 shadow-inner"
@@ -396,7 +415,6 @@ function MainDashboard() {
 
               <div className="h-6 w-[1px] bg-slate-200"></div>
 
-              {/* RESTORED NOTIFICATION BELL */}
               <button className="relative text-slate-400 hover:text-[#600018] p-1.5 rounded-xl hover:bg-slate-50 transition-all group">
                 <span className="absolute top-1.5 right-2 w-2 h-2 bg-rose-500 rounded-full border-2 border-white ring-1 ring-rose-300 animate-pulse"></span>
                 <svg
@@ -416,7 +434,6 @@ function MainDashboard() {
 
               <div className="h-6 w-[1px] bg-slate-200"></div>
 
-              {/* USER PROFILE INFO ROW */}
               <div className="flex items-center gap-3">
                 <div className="flex flex-col text-right">
                   <span className="text-xs font-bold text-slate-900 font-oswald tracking-wide">
@@ -496,6 +513,13 @@ function MainDashboard() {
               </div>
             </div>
           )}
+
+          {/* BUDGET UTILIZATION ROUTE PORTAL ENTRY */}
+          {currentTab === "budget" && (
+            <div className="animate-fade-in">
+              <BudgetUtilization isDarkMode={isDarkMode} />
+            </div>
+          )}
         </main>
 
         {/* Footer Area */}
@@ -535,7 +559,7 @@ function MainDashboard() {
               Logging out from MarSU Governance Matrix App...
             </p>
             <span className="text-[10px] font-bold text-[#D4AF37] tracking-widest uppercase block mt-6">
-              Clearing Telemetry Ledger
+              Closing Telemetry Ledger
             </span>
           </div>
         </div>
