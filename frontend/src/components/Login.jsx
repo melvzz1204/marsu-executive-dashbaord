@@ -49,43 +49,47 @@ const Login = () => {
   };
 
   return (
-    <div className="relative flex h-screen w-screen items-center justify-center bg-[#0b0708] font-sans antialiased overflow-hidden">
+    /* 🎯 CHANGED: Changed backdrop to pure white (bg-white) */
+    <div className="relative flex h-screen w-screen items-center justify-center bg-white font-sans antialiased overflow-hidden">
       {/* ================= BRANDED AMBIENT BACKGROUND LAYER ================= */}
       <div className="absolute inset-0 pointer-events-none">
-        {/* MarSU Burgundy Core Glow */}
-        <div className="absolute top-[-10%] left-[-10%] h-[600px] w-[600px] rounded-full bg-[#600018]/[0.08] blur-[140px]"></div>
+        {/* MarSU Burgundy Core Glow - Opacity tweaked slightly for the light surface */}
+        <div className="absolute top-[-10%] left-[-10%] h-[600px] w-[600px] rounded-full bg-[#600018]/[0.05] blur-[140px]"></div>
         {/* Institutional Gold Complementary Ambient Glow */}
-        <div className="absolute bottom-[-10%] right-[-10%] h-[600px] w-[600px] rounded-full bg-[#D4AF37]/[0.04] blur-[140px]"></div>
-        {/* Subtle Matrix Microgrid Layout */}
-        <div className="absolute inset-0 bg-[radial-gradient(linear-gradient,rgba(255,255,255,0.006)_1px,transparent_1px)] bg-[size:24px_24px] opacity-30"></div>
+        <div className="absolute bottom-[-10%] right-[-10%] h-[600px] w-[600px] rounded-full bg-[#D4AF37]/[0.05] blur-[140px]"></div>
+        {/* Light Mode Microgrid Layout */}
+        <div className="absolute inset-0 bg-[radial-gradient(rgba(0,0,0,0.03)_1px,transparent_1px)] bg-[size:24px_24px]"></div>
       </div>
 
       {/* Login Card Wrapper */}
       <div className="relative z-10 w-full max-w-md p-6">
-        <div className="relative overflow-hidden rounded-3xl border border-white/[0.04] bg-[#120a0c]/60 p-10 shadow-2xl backdrop-blur-2xl before:absolute before:inset-0 before:-z-10 before:bg-gradient-to-b before:from-white/[0.01] before:to-transparent">
+        {/* 🎯 CHANGED: Card background changed from semi-transparent dark to clean crisp white/slate with a crisp shadow layout */}
+        <div className="relative overflow-hidden rounded-3xl border border-slate-200/80 bg-slate-50/80 p-10 shadow-2xl backdrop-blur-2xl">
           {/* Top Decorative Branding Accent Rule Line (Gold Gradient) */}
-          <div className="absolute top-0 left-1/4 right-1/4 h-[1px] bg-gradient-to-r from-transparent via-[#D4AF37]/50 to-transparent"></div>
+          <div className="absolute top-0 left-1/4 right-1/4 h-[1px] bg-gradient-to-r from-transparent via-[#D4AF37] to-transparent"></div>
 
           {/* Header & MarSU Institutional Shield Shell */}
           <div className="text-center">
-            <h2 className="mt-6 text-3xl font-extrabold tracking-tight text-white font-oswald uppercase">
+            {/* 🎯 CHANGED: Title color from text-white to text-slate-900 */}
+            <h2 className="mt-6 text-3xl font-extrabold tracking-tight text-slate-900 font-oswald uppercase">
               Welcome Back
             </h2>
-            <p className="mt-2 text-xs text-slate-400 tracking-wide font-medium">
+            {/* 🎯 CHANGED: Description color from text-slate-400 to text-slate-500 */}
+            <p className="mt-2 text-xs text-slate-500 tracking-wide font-medium">
               Access your executive performance command center
             </p>
           </div>
 
           {/* Error Alert Banner Block */}
           {error && (
-            <div className="mt-6 flex items-center gap-3 rounded-xl border border-rose-500/10 bg-rose-500/[0.05] p-4 text-xs font-medium text-rose-400/90 animate-in fade-in duration-300">
+            <div className="mt-6 flex items-center gap-3 rounded-xl border border-rose-200 bg-rose-50 p-4 text-xs font-medium text-rose-600 animate-in fade-in duration-300">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 24 24"
                 strokeWidth={2}
                 stroke="currentColor"
-                className="w-4 h-4 flex-shrink-0 opacity-80"
+                className="w-4 h-4 flex-shrink-0"
               >
                 <path
                   strokeLinecap="round"
@@ -101,14 +105,16 @@ const Login = () => {
           <form onSubmit={handleSubmit} className="mt-8 space-y-5">
             {/* Email Input Field */}
             <div className="space-y-2">
+              {/* 🎯 CHANGED: Label text color to text-slate-600 */}
               <label
                 htmlFor="email"
-                className="block text-[10px] font-bold uppercase tracking-widest text-slate-400/80 font-oswald"
+                className="block text-[10px] font-bold uppercase tracking-widest text-slate-600 font-oswald"
               >
                 Email Address
               </label>
               <div className="relative group">
-                <span className="absolute inset-y-0 left-0 flex items-center pl-4 text-slate-500 group-focus-within:text-[#D4AF37] transition-colors duration-200">
+                {/* 🎯 CHANGED: Base icon color from text-slate-500 to text-slate-400 */}
+                <span className="absolute inset-y-0 left-0 flex items-center pl-4 text-slate-400 group-focus-within:text-[#600018] transition-colors duration-200">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
@@ -124,6 +130,7 @@ const Login = () => {
                     />
                   </svg>
                 </span>
+                {/* 🎯 CHANGED: Refactored border styles, input text color to slate-800, placeholder color, and active focus rings */}
                 <input
                   type="email"
                   id="email"
@@ -132,7 +139,7 @@ const Login = () => {
                   value={formData.email}
                   onChange={handleChange}
                   placeholder="name@marsu.edu.ph"
-                  className="w-full rounded-xl border border-white/[0.06] bg-black/30 py-3.5 pl-11 pr-4 text-sm text-slate-200 placeholder-slate-700 outline-none transition-all duration-200 focus:border-[#D4AF37]/30 focus:bg-black/50 focus:ring-4 focus:ring-[#600018]/[0.15]"
+                  className="w-full rounded-xl border border-slate-200 bg-white py-3.5 pl-11 pr-4 text-sm text-slate-800 placeholder-slate-400 outline-none transition-all duration-200 focus:border-[#600018]/40 focus:bg-white focus:ring-4 focus:ring-[#600018]/[0.08]"
                 />
               </div>
             </div>
@@ -140,21 +147,24 @@ const Login = () => {
             {/* Password Input Field */}
             <div className="space-y-2">
               <div className="flex items-center justify-between">
+                {/* 🎯 CHANGED: Label text color to text-slate-600 */}
                 <label
                   htmlFor="password"
-                  className="block text-[10px] font-bold uppercase tracking-widest text-slate-400/80 font-oswald"
+                  className="block text-[10px] font-bold uppercase tracking-widest text-slate-600 font-oswald"
                 >
                   Password
                 </label>
+                {/* 🎯 CHANGED: Link color slightly darkened for modern contrast on light backdrops */}
                 <a
                   href="#forgot"
-                  className="text-xs font-semibold text-[#D4AF37]/90 hover:text-[#e5c158] hover:underline underline-offset-4 transition-all font-oswald"
+                  className="text-xs font-semibold text-[#600018] hover:text-[#7a001e] hover:underline underline-offset-4 transition-all font-oswald"
                 >
                   Forgot password?
                 </a>
               </div>
               <div className="relative group">
-                <span className="absolute inset-y-0 left-0 flex items-center pl-4 text-slate-500 group-focus-within:text-[#D4AF37] transition-colors duration-200">
+                {/* 🎯 CHANGED: Base icon color from text-slate-500 to text-slate-400 */}
+                <span className="absolute inset-y-0 left-0 flex items-center pl-4 text-slate-400 group-focus-within:text-[#600018] transition-colors duration-200">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
@@ -170,6 +180,7 @@ const Login = () => {
                     />
                   </svg>
                 </span>
+                {/* 🎯 CHANGED: Refactored border styles, input text color to slate-800, placeholder color, and active focus rings */}
                 <input
                   type={showPassword ? "text" : "password"}
                   id="password"
@@ -178,14 +189,14 @@ const Login = () => {
                   value={formData.password}
                   onChange={handleChange}
                   placeholder="••••••••"
-                  className="w-full rounded-xl border border-white/[0.06] bg-black/30 py-3.5 pl-11 pr-12 text-sm text-slate-200 placeholder-slate-700 outline-none transition-all duration-200 focus:border-[#D4AF37]/30 focus:bg-black/50 focus:ring-4 focus:ring-[#600018]/[0.15]"
+                  className="w-full rounded-xl border border-slate-200 bg-white py-3.5 pl-11 pr-12 text-sm text-slate-800 placeholder-slate-400 outline-none transition-all duration-200 focus:border-[#600018]/40 focus:bg-white focus:ring-4 focus:ring-[#600018]/[0.08]"
                 />
 
                 {/* Modern Password View/Hide Toggle Icon */}
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute inset-y-0 right-0 flex items-center pr-4 text-slate-500 hover:text-slate-300 transition-colors"
+                  className="absolute inset-y-0 right-0 flex items-center pr-4 text-slate-400 hover:text-slate-600 transition-colors"
                 >
                   {showPassword ? (
                     <svg
@@ -232,11 +243,12 @@ const Login = () => {
               <input
                 type="checkbox"
                 id="remember"
-                className="h-4 w-4 rounded border-white/10 bg-black/40 text-[#600018] focus:ring-0 accent-[#600018] cursor-pointer"
+                className="h-4 w-4 rounded border-slate-300 bg-white text-[#600018] focus:ring-0 accent-[#600018] cursor-pointer"
               />
+              {/* 🎯 CHANGED: Label text color to text-slate-500 */}
               <label
                 htmlFor="remember"
-                className="ml-2 text-xs font-medium text-slate-400 select-none cursor-pointer hover:text-slate-300 transition-colors"
+                className="ml-2 text-xs font-medium text-slate-500 select-none cursor-pointer hover:text-slate-700 transition-colors"
               >
                 Remember this executive device
               </label>
@@ -246,7 +258,7 @@ const Login = () => {
             <button
               type="submit"
               disabled={isLoading}
-              className="relative mt-2 flex w-full items-center justify-center gap-2 overflow-hidden rounded-xl bg-[#600018] px-4 py-3.5 text-xs font-bold uppercase tracking-wider text-white shadow-xl transition-all duration-200 hover:bg-[#7a001e] hover:shadow-[#600018]/20 border border-[#D4AF37]/20 active:scale-[0.99] disabled:opacity-50 disabled:cursor-not-allowed font-oswald"
+              className="relative mt-2 flex w-full items-center justify-center gap-2 overflow-hidden rounded-xl bg-[#660033] px-4 py-3.5 text-xs font-bold uppercase tracking-wider text-white shadow-md transition-all duration-200 hover:bg-[#7a001e] hover:shadow-[#600018]/15 border border-[#D4AF37]/30 active:scale-[0.99] disabled:opacity-50 disabled:cursor-not-allowed font-oswald"
             >
               <span>
                 {isLoading ? "Validating Credentials..." : "Authorize Sign In"}
@@ -257,19 +269,22 @@ const Login = () => {
           {/* Visual Structural Rules Divider Section */}
           <div className="relative my-7 flex items-center justify-center">
             <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-white/[0.04]"></div>
+              {/* 🎯 CHANGED: Divider line color to light border variant */}
+              <div className="w-full border-t border-slate-200"></div>
             </div>
-            <span className="relative bg-[#11090b] px-3 text-[9px] font-bold uppercase tracking-widest text-slate-500 font-oswald">
+            {/* 🎯 CHANGED: Label background changed to match card inner style and text-slate-400 */}
+            <span className="relative bg-[#f8fafc] px-3 text-[9px] font-bold uppercase tracking-widest text-slate-400 font-oswald">
               Secured Matrix Node
             </span>
           </div>
 
           {/* Institutional Contact Support Footer Context */}
+          {/* 🎯 CHANGED: Text adjusted from slate-500 to slate-500, link targeting burgundy for a pristine match */}
           <p className="text-center text-xs text-slate-500">
             Need higher terminal clearance?{" "}
             <a
               href="#admin"
-              className="font-semibold text-[#D4AF37]/80 hover:text-white hover:underline underline-offset-4 transition-all font-oswald uppercase text-[11px] tracking-wide"
+              className="font-semibold text-[#600018] hover:text-[#7a001e] hover:underline underline-offset-4 transition-all font-oswald uppercase text-[11px] tracking-wide"
             >
               Contact Admin
             </a>
