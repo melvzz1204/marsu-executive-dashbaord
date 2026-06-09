@@ -10,30 +10,26 @@ import { Pie } from "react-chartjs-2";
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 /**
- * Ensures Oswald font is imported correctly.
+ * FIXED: Moved outside the components and safely checks if document exists.
+ * This runs exactly ONCE when the file is parsed, not on every render.
  */
-const injectGlobalFonts = () => {
-  if (typeof document !== "undefined") {
-    const styleId = "oswald-font-import";
-    if (!document.getElementById(styleId)) {
-      const style = document.createElement("style");
-      style.id = styleId;
-      style.innerHTML = `
-        @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&display=swap');
-
-        /* Apply Oswald globally to specified class */
-        .font-oswald {
-          font-family: 'Oswald', sans-serif;
-        }
-      `;
-      document.head.appendChild(style);
-    }
+if (typeof document !== "undefined") {
+  const styleId = "oswald-font-import";
+  if (!document.getElementById(styleId)) {
+    const style = document.createElement("style");
+    style.id = styleId;
+    style.innerHTML = `
+      @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&display=swap');
+      /* Apply Oswald globally to specified class */
+      .font-oswald {
+        font-family: 'Oswald', sans-serif;
+      }
+    `;
+    document.head.appendChild(style);
   }
-};
+}
 
-const DistributionPieWidget = ({ isDarkMode }) => {
-  injectGlobalFonts();
-
+const DistributionPieWidget = () => {
   const data = {
     labels: [
       "Engineering",
@@ -52,8 +48,7 @@ const DistributionPieWidget = ({ isDarkMode }) => {
           "#a855f7",
           "#f43f5e",
         ],
-        // Dynamic border color to pop from either white cards or dark slate backgrounds
-        borderColor: isDarkMode ? "#1e293b" : "#ffffff",
+        borderColor: "#ffffff",
         borderWidth: 2,
       },
     ],
@@ -66,20 +61,17 @@ const DistributionPieWidget = ({ isDarkMode }) => {
       legend: {
         position: "right",
         labels: {
-          // Dynamic text label coloring for readability
-          color: isDarkMode ? "#94a3b8" : "#475569",
+          color: "#475569",
           boxWidth: 12,
           font: { size: 11, weight: "600", family: "Oswald" },
           padding: 12,
         },
       },
       tooltip: {
-        backgroundColor: isDarkMode ? "#0f172a" : "#ffffff",
+        backgroundColor: "#ffffff",
         titleColor: "#D4AF37",
-        bodyColor: isDarkMode ? "#f1f5f9" : "#1e293b",
-        borderColor: isDarkMode
-          ? "rgba(212, 175, 55, 0.4)"
-          : "rgba(212, 175, 55, 0.2)",
+        bodyColor: "#1e293b",
+        borderColor: "rgba(212, 175, 55, 0.2)",
         borderWidth: 1,
         titleFont: { family: "Oswald" },
         bodyFont: { family: "Oswald" },
@@ -88,12 +80,12 @@ const DistributionPieWidget = ({ isDarkMode }) => {
   };
 
   return (
-    <div className="bg-white dark:bg-slate-900/60 p-8 rounded-3xl border border-slate-200/80 dark:border-slate-800/80 shadow-sm dark:shadow-xl dark:shadow-black/20 h-full flex flex-col justify-between transition-colors duration-300">
+    <div className="bg-white p-8 rounded-3xl border border-slate-200/80 shadow-sm h-full flex flex-col justify-between transition-colors duration-300">
       <div>
-        <h2 className="text-xl font-bold text-slate-800 dark:text-slate-100 tracking-tight font-oswald uppercase">
+        <h2 className="text-xl font-bold text-slate-800 tracking-tight font-oswald uppercase">
           Seat Share Density
         </h2>
-        <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
+        <p className="text-sm text-slate-500 mt-1">
           Current semester enrollment distribution ratio
         </p>
       </div>
@@ -111,7 +103,6 @@ function MainDashboard() {
     "Loading Executive Profile...",
   );
 
-  // Simulated backend fetch to receive the executive owner / president data
   useEffect(() => {
     const fetchExecutiveOwner = async () => {
       try {
@@ -130,15 +121,12 @@ function MainDashboard() {
     fetchExecutiveOwner();
   }, []);
 
-  // Format current date for executive reporting look
   const formattedDate = new Date().toLocaleDateString("en-US", {
     weekday: "short",
     year: "numeric",
     month: "short",
     day: "numeric",
   });
-
-  injectGlobalFonts();
 
   const handleLogout = () => {
     alert("Logging out from MarSU Governance Matrix App...");
@@ -244,14 +232,9 @@ function MainDashboard() {
   ];
 
   return (
-    // Explicit manual state assignment class hook to force dark rules down to components
-    <div
-      className={`${isDarkMode ? "dark" : ""} flex min-h-screen bg-[#F8FAFC] dark:bg-[#0b0f19] text-slate-800 dark:text-slate-100 font-sans antialiased selection:bg-[#D4AF37] selection:text-slate-900 transition-colors duration-300`}
-    >
-      {/* ================= SIDE NAVIGATION BAR ================= */}
+    <div className="flex min-h-screen bg-[#F8FAFC] text-slate-800 font-sans antialiased selection:bg-[#D4AF37] selection:text-slate-900 transition-colors duration-300">
       <aside className="w-80 bg-[#600018] text-white flex flex-col justify-between sticky top-0 h-screen shadow-xl border-r border-[#D4AF37]/20 z-40">
         <div className="flex flex-col pt-8 px-6 space-y-8 overflow-y-auto flex-1">
-          {/* Institutional Branding Header Block */}
           <div className="flex items-center gap-3.5 pb-6 border-b border-white/10">
             <div className="h-14 w-14 bg-white rounded-2xl flex items-center justify-center p-1.5 shadow-md flex-shrink-0">
               <img
@@ -270,7 +253,6 @@ function MainDashboard() {
             </div>
           </div>
 
-          {/* Core Navigation Menu List */}
           <nav className="flex flex-col space-y-2 flex-1">
             {navigationItems.map((item) => {
               const isActive = currentTab === item.id;
@@ -280,12 +262,12 @@ function MainDashboard() {
                   onClick={() => setCurrentTab(item.id)}
                   className={`flex items-center gap-4 px-4 py-3.5 rounded-xl text-sm font-semibold tracking-wide transition-all group relative ${
                     isActive
-                      ? "bg-white dark:bg-slate-900 text-[#600018] dark:text-[#D4AF37] shadow-md border-l-4 border-[#D4AF37]"
+                      ? "bg-white text-[#600018] shadow-md border-l-4 border-[#D4AF37]"
                       : "text-slate-200 hover:text-white hover:bg-white/10"
                   }`}
                 >
                   <span
-                    className={`${isActive ? "text-[#600018] dark:text-[#D4AF37]" : "text-[#D4AF37]/80 group-hover:text-[#D4AF37]"}`}
+                    className={`${isActive ? "text-[#600018]" : "text-[#D4AF37]/80 group-hover:text-[#D4AF37]"}`}
                   >
                     {item.icon}
                   </span>
@@ -300,7 +282,6 @@ function MainDashboard() {
             })}
           </nav>
 
-          {/* Bottom Logout Button */}
           <div className="pt-4 pb-2 mt-auto border-t border-white/10">
             <button
               onClick={handleLogout}
@@ -328,7 +309,6 @@ function MainDashboard() {
           </div>
         </div>
 
-        {/* Sidebar Footer Metadata Box */}
         <div className="p-6 border-t border-white/10 bg-[#4a0012]">
           <div className="flex items-center justify-between">
             <div className="flex flex-col">
@@ -349,51 +329,43 @@ function MainDashboard() {
         </div>
       </aside>
 
-      {/* ================= DYNAMIC MAIN CONTENT VIEWPORT ================= */}
       <div className="flex-1 flex flex-col min-w-0 overflow-y-auto">
         <main className="p-8 lg:p-12 space-y-10 max-w-screen-2xl w-full mx-auto">
-          {/* Header Dynamic Title & Executive Cluster Section */}
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 pb-6 border-b border-slate-200 dark:border-slate-800">
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 pb-6 border-b border-slate-200">
             <div>
               <div className="flex items-center gap-2 text-xs font-bold tracking-widest uppercase mb-1">
-                <span className="text-[#600018] dark:text-[#e22d4a]">
-                  Command Center
-                </span>
-                <span className="text-slate-300 dark:text-slate-700">/</span>
-                <span className="text-[#D4AF37] bg-[#600018] dark:bg-slate-900 px-2 py-0.5 rounded-md font-oswald">
+                <span className="text-[#600018]">Command Center</span>
+                <span className="text-slate-300">/</span>
+                <span className="text-[#D4AF37] bg-[#600018] px-2 py-0.5 rounded-md font-oswald">
                   {navigationItems.find((n) => n.id === currentTab)?.label}
                 </span>
               </div>
-              <h2 className="text-2xl font-extrabold tracking-tight text-slate-900 dark:text-white font-oswald uppercase">
+              <h2 className="text-2xl font-extrabold tracking-tight text-slate-900 font-oswald uppercase">
                 Digital Organizational Diagnostics & Intelligence
               </h2>
             </div>
 
-            {/* ================= RIGHT SIDE ACTION CLUSTER ================= */}
-            <div className="flex items-center gap-4 self-end md:self-auto bg-white dark:bg-slate-900 px-5 py-2.5 rounded-2xl border border-slate-200/60 dark:border-slate-800 shadow-sm transition-colors duration-300">
-              {/* ================= MODERN DARKMODE SLIDER CONTROLLER ================= */}
+            <div className="flex items-center gap-4 self-end md:self-auto bg-white px-5 py-2.5 rounded-2xl border border-slate-200/60 shadow-sm transition-colors duration-300">
+              {/* THEME ICON TOGGLE BUTTON (Purely functional state visual switch) */}
               <button
                 onClick={() => setIsDarkMode(!isDarkMode)}
-                className="relative flex items-center justify-between bg-slate-100 dark:bg-slate-800 h-9 w-16 rounded-full p-1 cursor-pointer transition-colors duration-300 focus:outline-none border border-slate-200/40 dark:border-slate-700/60 shadow-inner"
+                className="relative flex items-center justify-between bg-slate-100 h-9 w-16 rounded-full p-1 cursor-pointer transition-colors duration-300 focus:outline-none border border-slate-200/40 shadow-inner"
                 aria-label="Toggle Theme Mode"
               >
-                {/* Visual Slide Ball */}
                 <span
-                  className={`absolute top-[3px] left-[3px] h-[28px] w-[28px] rounded-full bg-white dark:bg-[#600018] shadow border border-slate-200 dark:border-transparent transform transition-transform duration-300 flex items-center justify-center ${
+                  className={`absolute top-[3px] left-[3px] h-[28px] w-[28px] rounded-full bg-white shadow border border-slate-200 transform transition-transform duration-300 flex items-center justify-center ${
                     isDarkMode ? "translate-x-7" : "translate-x-0"
                   }`}
                 >
                   {isDarkMode ? (
-                    // Dark moon icon inside slider button
                     <svg
-                      className="w-3.5 h-3.5 text-[#D4AF37]"
+                      className="w-3.5 h-3.5 text-[#600018]"
                       fill="currentColor"
                       viewBox="0 0 20 20"
                     >
                       <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
                     </svg>
                   ) : (
-                    // Light sun icon inside slider button
                     <svg
                       className="w-3.5 h-3.5 text-amber-500"
                       fill="currentColor"
@@ -409,11 +381,10 @@ function MainDashboard() {
                 </span>
               </button>
 
-              <div className="h-6 w-[1px] bg-slate-200 dark:bg-slate-800"></div>
+              <div className="h-6 w-[1px] bg-slate-200"></div>
 
-              {/* Notification Bell Component */}
-              <button className="relative text-slate-400 hover:text-[#600018] dark:hover:text-[#D4AF37] p-1.5 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-800 transition-all group">
-                <span className="absolute top-1.5 right-2 w-2 h-2 bg-rose-500 rounded-full border-2 border-white dark:border-slate-900 ring-1 ring-rose-300 animate-pulse"></span>
+              <button className="relative text-slate-400 hover:text-[#600018] p-1.5 rounded-xl hover:bg-slate-50 transition-all group">
+                <span className="absolute top-1.5 right-2 w-2 h-2 bg-rose-500 rounded-full border-2 border-white ring-1 ring-rose-300 animate-pulse"></span>
                 <svg
                   className="w-6 h-6 transform group-hover:rotate-12 transition-transform"
                   fill="none"
@@ -429,15 +400,14 @@ function MainDashboard() {
                 </svg>
               </button>
 
-              <div className="h-6 w-[1px] bg-slate-200 dark:bg-slate-800"></div>
+              <div className="h-6 w-[1px] bg-slate-200"></div>
 
-              {/* Dynamic Executive Owner Identity Widget */}
               <div className="flex items-center gap-3">
                 <div className="flex flex-col text-right">
-                  <span className="text-xs font-bold text-slate-900 dark:text-slate-100 font-oswald tracking-wide">
+                  <span className="text-xs font-bold text-slate-900 font-oswald tracking-wide">
                     {presidentName}
                   </span>
-                  <span className="text-[10px] text-[#D4AF37] bg-[#600018]/5 dark:bg-[#D4AF37]/10 px-2 py-0.5 rounded-md font-extrabold tracking-wider uppercase inline-block self-end mt-0.5">
+                  <span className="text-[10px] text-[#D4AF37] bg-[#600018]/5 px-2 py-0.5 rounded-md font-extrabold tracking-wider uppercase inline-block self-end mt-0.5">
                     Executive Owner
                   </span>
                 </div>
@@ -451,36 +421,36 @@ function MainDashboard() {
           {/* Integrated Dynamic Module Router Engine */}
           {currentTab === "dashboard" && (
             <div className="space-y-10 animate-fade-in">
-              <ExecutiveKPIs isDarkMode={isDarkMode} />
+              <ExecutiveKPIs isDarkMode={false} />
 
               <div className="relative group">
                 <div className="absolute -inset-0.5 bg-gradient-to-r from-[#D4AF37]/10 to-[#600018]/5 rounded-3xl opacity-30 blur transition duration-1000 group-hover:opacity-50"></div>
-                <div className="relative bg-white dark:bg-slate-900/40 rounded-3xl border border-slate-200/80 dark:border-slate-800/80 shadow-sm overflow-hidden transition-colors duration-300">
-                  <EnrollmentChart isDarkMode={isDarkMode} />
+                <div className="relative bg-white rounded-3xl border border-slate-200/80 shadow-sm overflow-hidden transition-colors duration-300">
+                  <EnrollmentChart isDarkMode={false} />
                 </div>
               </div>
 
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
-                <div className="lg:col-span-2 bg-white dark:bg-slate-900/40 rounded-3xl border border-slate-200/80 dark:border-slate-800/80 shadow-sm overflow-hidden transition-colors duration-300">
-                  <ResearchMetrics isDarkMode={isDarkMode} />
+                <div className="lg:col-span-2 bg-white rounded-3xl border border-slate-200/80 shadow-sm overflow-hidden transition-colors duration-300">
+                  <ResearchMetrics isDarkMode={false} />
                 </div>
                 <div>
-                  <DistributionPieWidget isDarkMode={isDarkMode} />
+                  <DistributionPieWidget />
                 </div>
               </div>
             </div>
           )}
 
           {currentTab === "instruction" && (
-            <div className="bg-white dark:bg-slate-900/60 border border-slate-200/80 dark:border-slate-800/80 rounded-3xl p-8 shadow-sm text-center py-20 animate-fade-in transition-colors duration-300">
+            <div className="bg-white border border-slate-200/80 rounded-3xl p-8 shadow-sm text-center py-20 animate-fade-in transition-colors duration-300">
               <div className="max-w-md mx-auto space-y-4">
-                <div className="w-16 h-16 bg-[#600018]/5 dark:bg-[#600018]/20 text-[#600018] dark:text-rose-400 mx-auto flex items-center justify-center rounded-2xl border border-[#600018]/10 shadow-inner">
+                <div className="w-16 h-16 bg-[#600018]/5 text-[#600018] mx-auto flex items-center justify-center rounded-2xl border border-[#600018]/10 shadow-inner">
                   {navigationItems[1].icon}
                 </div>
-                <h3 className="text-xl font-bold font-oswald text-slate-900 dark:text-white uppercase">
+                <h3 className="text-xl font-bold font-oswald text-slate-900 uppercase">
                   Instructional Intelligence Registry
                 </h3>
-                <p className="text-sm text-slate-500 dark:text-slate-400">
+                <p className="text-sm text-slate-500">
                   Curriculum compliance metrics, faculty loading data charts,
                   and student satisfaction index summaries are compiling for
                   this sector.
@@ -490,15 +460,15 @@ function MainDashboard() {
           )}
 
           {currentTab === "achievements" && (
-            <div className="bg-white dark:bg-slate-900/60 border border-slate-200/80 dark:border-slate-800/80 rounded-3xl p-8 shadow-sm text-center py-20 animate-fade-in transition-colors duration-300">
+            <div className="bg-white border border-slate-200/80 rounded-3xl p-8 shadow-sm text-center py-20 animate-fade-in transition-colors duration-300">
               <div className="max-w-md mx-auto space-y-4">
-                <div className="w-16 h-16 bg-[#600018]/5 dark:bg-[#600018]/20 text-[#600018] dark:text-rose-400 mx-auto flex items-center justify-center rounded-2xl border border-[#600018]/10 shadow-inner">
+                <div className="w-16 h-16 bg-[#600018]/5 text-[#600018] mx-auto flex items-center justify-center rounded-2xl border border-[#600018]/10 shadow-inner">
                   {navigationItems[2].icon}
                 </div>
-                <h3 className="text-xl font-bold font-oswald text-slate-900 dark:text-white uppercase">
+                <h3 className="text-xl font-bold font-oswald text-slate-900 uppercase">
                   Institutional Accreditations & Honors
                 </h3>
-                <p className="text-sm text-slate-500 dark:text-slate-400">
+                <p className="text-sm text-slate-500">
                   Real-time SUC leveling progress, CHED COEs/CODs status
                   trackers, and board examination performance statistics ledger.
                 </p>
@@ -507,30 +477,29 @@ function MainDashboard() {
           )}
 
           {currentTab === "enrollment" && (
-            <div className="bg-white dark:bg-slate-900/40 border border-slate-200/80 dark:border-slate-800/80 rounded-3xl p-4 shadow-sm space-y-10 animate-fade-in transition-colors duration-300">
-              <EnrollmentChart isDarkMode={isDarkMode} />
+            <div className="bg-white border border-slate-200/80 rounded-3xl p-4 shadow-sm space-y-10 animate-fade-in transition-colors duration-300">
+              <EnrollmentChart isDarkMode={false} />
               <div className="px-4 pb-4">
-                <DistributionPieWidget isDarkMode={isDarkMode} />
+                <DistributionPieWidget />
               </div>
             </div>
           )}
 
           {currentTab === "research" && (
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-10 animate-fade-in">
-              <div className="lg:col-span-2 bg-white dark:bg-slate-900/40 border border-slate-200/80 dark:border-slate-800/80 rounded-3xl p-4 shadow-sm transition-colors duration-300">
-                <ResearchMetrics isDarkMode={isDarkMode} />
+              <div className="bg-white border border-slate-200/80 rounded-3xl p-4 shadow-sm transition-colors duration-300 lg:col-span-2">
+                <ResearchMetrics isDarkMode={false} />
               </div>
               <div>
-                <DistributionPieWidget isDarkMode={isDarkMode} />
+                <DistributionPieWidget />
               </div>
             </div>
           )}
         </main>
 
-        {/* Global Structural App Footer Layer */}
-        <footer className="mt-auto px-8 lg:px-12 py-6 border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 flex flex-col sm:flex-row justify-between text-xs text-slate-400 dark:text-slate-500 font-medium font-oswald transition-colors duration-300">
+        <footer className="mt-auto px-8 lg:px-12 py-6 border-t border-slate-200 bg-white flex flex-col sm:flex-row justify-between text-xs text-slate-400 font-medium font-oswald transition-colors duration-300">
           <p>© 2026 Marinduque State University. All rights reserved.</p>
-          <p className="tracking-wide text-[#600018] dark:text-[#D4AF37] font-bold uppercase">
+          <p className="tracking-wide text-[#600018] font-bold uppercase">
             Confidential / Governance Intelligence Matrix
           </p>
         </footer>

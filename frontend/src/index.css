@@ -1,31 +1,8 @@
 @import "tailwindcss";
 @import url("https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&display=swap");
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
 
 @layer base {
   :root {
     --font-sans: "Oswald", sans-serif;
   }
-  html {
-    /* Set a clean default background for Light Mode, matching dashboard design */
-    background-color: #f8fafc;
-    color: #1e293b; /* slate-800 */
-    scroll-behavior: smooth;
-  }
-}
-
-body {
-  background-color: transparent !important;
-}
-
-/* Map the Font Family for utility use */
-.font-oswald {
-  font-family: "Oswald", sans-serif;
-}
-
-.dark html {
-  background-color: #0b0f19; /* dark blue-slate */
-  color: #f1f5f9; /* slate-100 */
 }
