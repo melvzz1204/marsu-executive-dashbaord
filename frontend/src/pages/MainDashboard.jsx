@@ -22,7 +22,7 @@ if (typeof document !== "undefined") {
   }
 }
 
-const DistributionPieWidget = ({ isDarkMode }) => {
+const DistributionPieWidget = () => {
   const data = {
     labels: [
       "Computing (CICS)",
@@ -81,7 +81,7 @@ const DistributionPieWidget = ({ isDarkMode }) => {
           Institutional Analytics
         </span>
         <h2 className="text-xl font-extrabold tracking-tight font-oswald uppercase text-slate-900">
-          Seat Share Density
+          Share Density
         </h2>
       </div>
 

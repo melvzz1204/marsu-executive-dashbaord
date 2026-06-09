@@ -132,12 +132,33 @@ const Sidebar = ({
         isOpen ? "w-80" : "w-20"
       }`}
     >
+      {/* 🌟 FIXED: Absolute floating toggle button positioned directly over the sidebar's right-hand boundary line */}
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className="absolute top-1/2 -right-4 -translate-y-1/2 z-50 w-8 h-8 rounded-xl bg-[#600018] border border-[#D4AF37]/40 text-[#D4AF37] hover:text-white hover:border-[#D4AF37] flex items-center justify-center shadow-[0_4px_12px_rgba(0,0,0,0.15)] backdrop-blur-md transition-all duration-300 hover:scale-105 active:scale-95"
+        aria-label="Toggle Sidebar Dimensions"
+      >
+        <svg
+          className={`w-4 h-4 transform transition-transform duration-300 ${!isOpen ? "rotate-180" : ""}`}
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2.5"
+          viewBox="0 0 24 24"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M11 19l-7-7 7-7m8 14l-7-7 7-7"
+          />
+        </svg>
+      </button>
+
       <div className="flex flex-col pt-8 px-4 space-y-8 overflow-y-auto flex-1 overflow-x-hidden">
         {/* Branding Area: Hide typography when closed to avoid layout breaks */}
         <div
           className={`flex items-center gap-3.5 pb-6 border-b border-white/10 ${isOpen ? "px-2" : "justify-center"}`}
         >
-          <div className="h-12 w-12 bg-white rounded-xl flex items-center justify-center p-1 shadow-md flex-shrink-0 transition-all duration-300">
+          <div className="h-23 w-23 rounded-xl flex items-center justify-center  shrink-0 transition-all duration-300">
             <img
               src={marsuLogo}
               alt="MarSU Logo"
@@ -146,39 +167,15 @@ const Sidebar = ({
           </div>
           {isOpen && (
             <div className="animate-fade-in whitespace-nowrap">
-              <h1 className="text-xs font-extrabold uppercase tracking-wide leading-tight font-oswald text-white">
-                Marinduque State
+              <h1 className="text-l font-extrabold uppercase tracking-wide leading-tight font-oswald text-white">
+                Marinduque State <br />
+                university
               </h1>
               <p className="text-[9px] font-bold text-[#D4AF37] tracking-widest uppercase mt-0.5">
                 Intelligence Matrix
               </p>
             </div>
           )}
-        </div>
-
-        {/* Action Toggle Controller Button inside the sidebar */}
-        <div
-          className={`flex ${isOpen ? "justify-end px-2" : "justify-center"}`}
-        >
-          <button
-            onClick={() => setIsOpen(!isOpen)}
-            className="p-1.5 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 text-[#D4AF37] transition-all"
-            aria-label="Toggle Sidebar Dimensions"
-          >
-            <svg
-              className={`w-5 h-5 transform transition-transform duration-300 ${!isOpen ? "rotate-180" : ""}`}
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M11 19l-7-7 7-7m8 14l-7-7 7-7"
-              />
-            </svg>
-          </button>
         </div>
 
         {/* Navigation Link Mapping Matrix */}
