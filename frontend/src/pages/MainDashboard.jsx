@@ -34,12 +34,13 @@ const DistributionPieWidget = ({ isDarkMode }) => {
     datasets: [
       {
         data: [1690, 1580, 1140, 1030, 680],
+        // 🌟 FIXED: Vibrant colors optimized to pop perfectly on a light white background
         backgroundColor: [
           "#660033",
           "#C5A059",
+          "#475569",
+          "#64748b",
           "#94a3b8",
-          "#cbd5e1",
-          "#e2e8f0",
         ],
         borderColor: "#ffffff",
         borderWidth: 2,
@@ -47,6 +48,7 @@ const DistributionPieWidget = ({ isDarkMode }) => {
     ],
   };
 
+  // 🌟 FIXED: Font colors locked to clean dark slates to read beautifully on a white card
   const options = {
     responsive: true,
     maintainAspectRatio: false,
@@ -54,31 +56,41 @@ const DistributionPieWidget = ({ isDarkMode }) => {
       legend: {
         position: "right",
         labels: {
-          color: "#64748b",
+          color: "#475569", // Fixed dark grey text for the legend labels
           boxWidth: 8,
           font: { size: 11, family: "Inter, sans-serif" },
         },
+      },
+      tooltip: {
+        padding: 10,
+        backgroundColor: "#ffffff",
+        titleColor: "#0f172a",
+        bodyColor: "#475569",
+        borderColor: "rgba(0,0,0,0.06)",
+        borderWidth: 1,
       },
     },
   };
 
   return (
-    <div className="bg-white p-8 rounded-3xl shadow-[0_20px_50px_-12px_rgba(0,0,0,0.04)] h-full flex flex-col justify-between">
+    /* 🌟 FIXED: Removed dark-mode conditional classes. Completely locked to a white card structure */
+    <div className="p-8 rounded-3xl shadow-[0_20px_50px_-12px_rgba(0,0,0,0.03)] border border-slate-100 bg-white text-slate-900 h-full flex flex-col justify-between transition-all duration-300">
       <div>
-        <span className="text-[10px] font-bold uppercase tracking-widest text-[#660033]/80 block mb-1">
+        {/* Subtitle tag matches the beautiful university maroon flavor */}
+        <span className="text-[10px] font-bold uppercase tracking-widest block mb-1 text-[#660033]/80">
           Institutional Analytics
         </span>
-        <h2 className="text-lg font-semibold text-slate-900 tracking-tight">
+        <h2 className="text-xl font-extrabold tracking-tight font-oswald uppercase text-slate-900">
           Seat Share Density
         </h2>
       </div>
+
       <div className="h-[240px] w-full my-auto flex items-center justify-center pt-4">
         <Pie data={data} options={options} />
       </div>
     </div>
   );
 };
-
 function MainDashboard() {
   const [currentTab, setCurrentTab] = useState("dashboard");
   const [isDarkMode, setIsDarkMode] = useState(false);
@@ -115,7 +127,14 @@ function MainDashboard() {
   };
 
   return (
-    <div className="flex min-h-screen font-sans antialiased bg-[#f8f4f4ac] text-slate-800">
+    /* 🌟 FIX 1: Linked background wrapper and text base states conditionally to isDarkMode state toggles */
+    <div
+      className={`flex min-h-screen font-sans antialiased transition-colors duration-300 ${
+        isDarkMode
+          ? "bg-slate-900 text-slate-100"
+          : "bg-[#f8f4f4ac] text-slate-800"
+      }`}
+    >
       {/* Sidebar Injection Layer */}
       <Sidebar
         currentTab={currentTab}
@@ -130,25 +149,47 @@ function MainDashboard() {
       <div className="flex-1 flex flex-col min-w-0 overflow-y-auto">
         <main className="p-8 lg:p-12 space-y-10 max-w-screen-2xl w-full mx-auto">
           {/* HEADER STRIP ROW */}
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 pb-6 border-b border-slate-200">
+          {/* 🌟 FIX 2: Added conditional color variations for header border controls */}
+          <div
+            className={`flex flex-col md:flex-row justify-between items-start md:items-center gap-4 pb-6 border-b transition-colors duration-300 ${
+              isDarkMode ? "border-slate-800" : "border-slate-200"
+            }`}
+          >
             <div>
               <div className="flex items-center gap-2 text-xs font-bold tracking-widest uppercase mb-1">
-                <span className="text-[#600018]">Command Center</span>
+                <span
+                  className={isDarkMode ? "text-rose-400" : "text-[#600018]"}
+                >
+                  Command Center
+                </span>
                 <span className="text-slate-300">/</span>
                 <span className="text-white bg-[#600018] px-2 py-0.5 rounded-md font-oswald capitalize">
                   {currentTab}
                 </span>
               </div>
-              <h2 className="text-2xl font-extrabold tracking-tight font-oswald uppercase text-[#600018]">
+              <h2
+                className={`text-2xl font-extrabold tracking-tight font-oswald uppercase ${isDarkMode ? "text-white" : "text-[#600018]"}`}
+              >
                 Digital Organizational Diagnostics & Intelligence
               </h2>
             </div>
 
             {/* Profile User Toolbar Actions Wrapper */}
-            <div className="flex items-center gap-4 self-end md:self-auto bg-white px-5 py-2.5 rounded-2xl border border-slate-200/60 shadow-sm">
+            {/* 🌟 FIX 3: Shifted active action bar colors using state toggles */}
+            <div
+              className={`flex items-center gap-4 self-end md:self-auto px-5 py-2.5 rounded-2xl border shadow-sm transition-all duration-300 ${
+                isDarkMode
+                  ? "bg-slate-800 border-slate-700/80 text-white"
+                  : "bg-white border-slate-200/60"
+              }`}
+            >
               <button
                 onClick={() => setIsDarkMode(!isDarkMode)}
-                className="relative flex items-center justify-between bg-slate-100 h-8 w-14 rounded-full p-1 cursor-pointer border border-slate-200/40 shadow-inner"
+                className={`relative flex items-center justify-between h-8 w-14 rounded-full p-1 cursor-pointer border shadow-inner transition-colors duration-300 ${
+                  isDarkMode
+                    ? "bg-slate-700 border-slate-600"
+                    : "bg-slate-100 border-slate-200/40"
+                }`}
               >
                 <span
                   className={`absolute top-[2px] left-[2px] h-[24px] w-[24px] rounded-full bg-white shadow border border-slate-200 transform transition-transform duration-300 flex items-center justify-center ${isDarkMode ? "translate-x-6" : "translate-x-0"}`}
@@ -157,11 +198,15 @@ function MainDashboard() {
                 </span>
               </button>
 
-              <div className="h-6 w-[1px] bg-slate-200"></div>
+              <div
+                className={`h-6 w-[1px] ${isDarkMode ? "bg-slate-700" : "bg-slate-200"}`}
+              ></div>
 
               <div className="flex items-center gap-3">
                 <div className="flex flex-col text-right">
-                  <span className="text-xs font-bold text-slate-900 font-oswald tracking-wide">
+                  <span
+                    className={`text-xs font-bold font-oswald tracking-wide ${isDarkMode ? "text-slate-200" : "text-slate-900"}`}
+                  >
                     {presidentName}
                   </span>
                   <span className="text-[10px] text-[#D4AF37] bg-[#600018]/5 px-2 py-0.5 rounded-md font-extrabold tracking-wider uppercase inline-block self-end mt-0.5">
@@ -192,16 +237,24 @@ function MainDashboard() {
           )}
 
           {currentTab === "Academic Performance" && (
-            <div className="bg-white rounded-3xl p-8 shadow-[0_20px_50px_-12px_rgba(0,0,0,0.04)] text-center py-20 animate-fade-in">
-              <h3 className="text-xl font-bold font-oswald text-slate-900 uppercase">
+            <div
+              className={`rounded-3xl p-8 shadow-[0_20px_50px_-12px_rgba(0,0,0,0.04)] text-center py-20 animate-fade-in ${isDarkMode ? "bg-slate-800" : "bg-white"}`}
+            >
+              <h3
+                className={`text-xl font-bold font-oswald uppercase ${isDarkMode ? "text-white" : "text-slate-900"}`}
+              >
                 Academic Performance Analytics
               </h3>
             </div>
           )}
 
           {currentTab === "achievements" && (
-            <div className="bg-white rounded-3xl p-8 shadow-[0_20px_50px_-12px_rgba(0,0,0,0.04)] text-center py-20 animate-fade-in">
-              <h3 className="text-xl font-bold font-oswald text-slate-900 uppercase">
+            <div
+              className={`rounded-3xl p-8 shadow-[0_20px_50px_-12px_rgba(0,0,0,0.04)] text-center py-20 animate-fade-in ${isDarkMode ? "bg-slate-800" : "bg-white"}`}
+            >
+              <h3
+                className={`text-xl font-bold font-oswald uppercase ${isDarkMode ? "text-white" : "text-slate-900"}`}
+              >
                 Institutional Accreditations & Honors
               </h3>
             </div>
@@ -232,9 +285,18 @@ function MainDashboard() {
           )}
         </main>
 
-        <footer className="mt-auto px-8 lg:px-12 py-6 border-t border-slate-200 bg-white flex flex-col sm:flex-row justify-between text-xs text-slate-400 font-medium font-oswald">
+        {/* Global Footer */}
+        <footer
+          className={`mt-auto px-8 lg:px-12 py-6 border-t flex flex-col sm:flex-row justify-between text-xs font-medium font-oswald transition-colors duration-300 ${
+            isDarkMode
+              ? "bg-slate-800/50 border-slate-800 text-slate-500"
+              : "bg-white border-slate-200 text-slate-400"
+          }`}
+        >
           <p>© 2026 Marinduque State University. All rights reserved.</p>
-          <p className="tracking-wide text-[#600018] font-bold uppercase">
+          <p
+            className={`tracking-wide font-bold uppercase ${isDarkMode ? "text-rose-400" : "text-[#600018]"}`}
+          >
             Confidential / Governance Intelligence Matrix
           </p>
         </footer>

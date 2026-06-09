@@ -19,160 +19,116 @@ ChartJS.register(
   Legend,
 );
 
-const ResearchMetrics = () => {
-  const labels = [
-    "Engineering (CE)",
-    "Computing (CICS)",
-    "Education (CED)",
-    "Industrial Tech (CIT)",
-    "Business (CBMA)",
-  ];
+function ResearchMetrics({ isDarkMode }) {
+  const labels = ["CICS", "CE", "CED", "CIT", "CBMA"];
 
   const data = {
     labels,
     datasets: [
       {
         label: "Published Research (Papers)",
-        data: [42, 58, 31, 22, 19],
-        backgroundColor: "#660033", // 🎯 BRANDED IDENTITY: Primary Burgundy
-        hoverBackgroundColor: "#4d0026",
-        borderRadius: 4, // Clean, subtle rounding for a premium data look
-        borderSkipped: false,
-        barPercentage: 0.55, // Leaner bar profile for an airy layout aesthetic
-        categoryPercentage: 0.7,
+        data: [58, 42, 31, 22, 19],
+        backgroundColor: "#600018", // Hardcoded university maroon
+        borderRadius: 6,
       },
       {
         label: "Grants Secured (M ₱)",
-        data: [12.4, 8.9, 3.5, 6.2, 1.8],
-        backgroundColor: "#C5A059", // 🎯 BRANDED IDENTITY: Matte Satin Gold
-        hoverBackgroundColor: "#b38f4b",
-        borderRadius: 4,
-        borderSkipped: false,
-        barPercentage: 0.55,
-        categoryPercentage: 0.7,
+        data: [9, 13, 4, 6, 2],
+        backgroundColor: "#D4AF37", // Hardcoded gold accent
+        borderRadius: 6,
       },
     ],
   };
 
-  const options = {
+  // 🌟 FIXED: Axis text and grid lines are locked to dark/light variants that pop beautifully on a WHITE background
+  const chartOptions = {
     responsive: true,
     maintainAspectRatio: false,
     plugins: {
       legend: {
+        display: true,
         position: "top",
-        align: "end", // Elegant side placement alignment
+        align: "end",
         labels: {
-          color: "#64748b", // Slate-500 typography scaling
-          boxWidth: 6,
-          boxHeight: 6,
+          color: "#475569", // Consistent slate text color
+          boxWidth: 10,
           usePointStyle: true,
           pointStyle: "circle",
-          font: {
-            size: 11,
-            family: "Inter, sans-serif",
-            weight: "500",
-          },
-          padding: 20,
+          font: { size: 11, family: "Inter, sans-serif", weight: "500" },
         },
       },
-      title: {
-        display: false,
-      },
       tooltip: {
-        backgroundColor: "rgba(15, 23, 42, 0.98)", // Premium dark slate tooltip box
-        titleColor: "#94a3b8",
-        bodyColor: "#fff",
         padding: 12,
-        cornerRadius: 10,
-        boxPadding: 6,
-        usePointStyle: true,
+        backgroundColor: "#ffffff",
+        titleColor: "#0f172a",
+        bodyColor: "#475569",
+        borderColor: "rgba(0,0,0,0.06)",
+        borderWidth: 1,
       },
     },
     scales: {
       x: {
-        grid: {
-          display: false, // Architectural baseline display logic
-        },
-        /* 🎯 FIXED: Explicitly turns off injected canvas boundary line */
-        border: {
-          display: false,
-        },
-        ticks: {
-          color: "#94a3b8", // Clean slate labels
-          font: {
-            size: 11,
-            family: "Inter, sans-serif",
-          },
-          padding: 10,
-        },
+        ticks: { color: "#64748b", font: { size: 11 } },
+        grid: { display: false },
       },
       y: {
-        beginAtZero: true,
+        ticks: { color: "#64748b", font: { size: 11 } },
         grid: {
-          color: "#f8fafc", // Ultra-thin elegant alignment tracks
-        },
-        /* 🎯 FIXED: Explicitly turns off injected canvas boundary line */
-        border: {
-          display: false,
-        },
-        ticks: {
-          color: "#94a3b8",
-          font: {
-            size: 11,
-            family: "Inter, sans-serif",
-          },
-          padding: 12,
-          callback: (value) => value.toLocaleString(),
+          color: "rgba(0, 0, 0, 0.05)", // Clean, subtle grid lines on white canvas
+          drawBorder: false,
         },
       },
     },
   };
 
   return (
-    /* 🎯 BORDER REMOVED: Structured purely on the premium shadow depth profile */
-    <div className="bg-white p-8 rounded-3xl shadow-[0_20px_50px_-12px_rgba(0,0,0,0.04)]">
-      <div className="flex flex-col lg:flex-row lg:items-start justify-between gap-4 mb-8">
+    /* 🌟 FIXED: Card container background is now explicitly hardcoded to white (`bg-white text-slate-900`) */
+    <div className="p-8 rounded-3xl shadow-[0_20px_50px_-12px_rgba(0,0,0,0.03)] border border-slate-100 bg-white text-slate-900 transition-all duration-300">
+      {/* HEADER SECTION */}
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 pb-6 border-b border-dashed border-slate-200">
         <div>
-          <span className="text-[10px] font-bold uppercase tracking-widest text-[#660033]/80 block mb-1">
+          <span className="text-[10px] font-bold uppercase tracking-widest block mb-1 text-[#660033]/80">
             Institutional Analytics
           </span>
-          <h2 className="text-lg font-semibold text-slate-900 tracking-tight">
+          <h2 className="text-xl font-extrabold tracking-tight font-oswald uppercase text-slate-900">
             Research & Capital Efficiency
           </h2>
-          <p className="text-xs text-slate-400 mt-0.5 font-normal">
+          <p className="text-xs mt-1 max-w-xl leading-relaxed text-slate-500">
             Institutional output comparing publication density against external
-            funding allocations.
+            funding allocations across active departments.
           </p>
         </div>
 
-        {/* Clean, borderless KPI metric readouts aligned to typography grid */}
-        <div className="flex items-center gap-6 sm:gap-8 self-start lg:self-auto">
-          <div>
-            <span className="text-[10px] font-medium uppercase tracking-wider text-slate-400 block">
+        {/* METRIC BADGES GRID */}
+        <div className="flex gap-4 items-center">
+          {/* Total Papers Card */}
+          <div className="px-5 py-3 rounded-2xl min-w-[120px] bg-slate-50 border border-slate-100">
+            <span className="text-[10px] uppercase tracking-wider block font-bold text-slate-500">
               Total Papers
             </span>
-            <span className="text-2xl font-light text-slate-900 tracking-tight">
+            <span className="text-2xl font-bold font-oswald tracking-tight block mt-0.5 text-slate-800">
               172
             </span>
           </div>
-          <div className="h-8 w-[1px] bg-slate-100 self-end mb-1" />{" "}
-          {/* Minimalist structural divider */}
-          <div>
-            <span className="text-[10px] font-medium uppercase tracking-wider text-slate-400 block">
+
+          {/* Total Funding Card */}
+          <div className="px-5 py-3 rounded-2xl min-w-[140px] bg-slate-50 border border-slate-100">
+            <span className="text-[10px] uppercase tracking-wider block font-bold text-slate-500">
               Total Funding
             </span>
-            <span className="text-2xl font-light text-slate-900 tracking-tight">
+            <span className="text-2xl font-bold font-oswald tracking-tight block mt-0.5 text-emerald-600">
               ₱32.8M
             </span>
           </div>
         </div>
       </div>
 
-      <div className="h-[340px] w-full">
-        <Bar data={data} options={options} />
+      {/* CHART CONTENT CONTAINER */}
+      <div className="mt-8 h-[320px] w-full">
+        <Bar data={data} options={chartOptions} />
       </div>
     </div>
   );
-};
+}
 
 export default ResearchMetrics;
