@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import Sidebar from "../components/Sidebar"; // Imported decoupled layout component
+import Sidebar from "../components/Sidebar";
 import ExecutiveKPIs from "../components/ExecutiveKPIs";
 import EnrollmentChart from "../components/EnrollmentChart";
 import ResearchMetrics from "../components/ResearchMetrics";
@@ -56,21 +56,8 @@ const DistributionPieWidget = ({ isDarkMode }) => {
         labels: {
           color: "#64748b",
           boxWidth: 8,
-          boxHeight: 8,
-          usePointStyle: true,
-          pointStyle: "circle",
-          font: { size: 11, weight: "500", family: "Inter, sans-serif" },
-          padding: 14,
+          font: { size: 11, family: "Inter, sans-serif" },
         },
-      },
-      tooltip: {
-        backgroundColor: "rgba(15, 23, 42, 0.98)",
-        titleColor: "#94a3b8",
-        bodyColor: "#fff",
-        padding: 12,
-        cornerRadius: 10,
-        boxPadding: 6,
-        usePointStyle: true,
       },
     },
   };
@@ -84,9 +71,6 @@ const DistributionPieWidget = ({ isDarkMode }) => {
         <h2 className="text-lg font-semibold text-slate-900 tracking-tight">
           Seat Share Density
         </h2>
-        <p className="text-xs text-slate-400 mt-0.5 font-normal">
-          Current semester enrollment distribution ratio
-        </p>
       </div>
       <div className="h-[240px] w-full my-auto flex items-center justify-center pt-4">
         <Pie data={data} options={options} />
@@ -102,6 +86,7 @@ function MainDashboard() {
     "Loading Executive Profile...",
   );
   const [isLoggingOut, setIsLoggingOut] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
   useEffect(() => {
     const fetchExecutiveOwner = async () => {
@@ -131,18 +116,20 @@ function MainDashboard() {
 
   return (
     <div className="flex min-h-screen font-sans antialiased bg-[#f8f4f4ac] text-slate-800">
-      {/* 🎯 MOUNTED COMPONENT: Mount the side navigation dashboard layer */}
+      {/* Sidebar Injection Layer */}
       <Sidebar
         currentTab={currentTab}
         setCurrentTab={setCurrentTab}
         handleLogout={handleLogout}
         formattedDate={formattedDate}
+        isOpen={isSidebarOpen}
+        setIsOpen={setIsSidebarOpen}
       />
 
-      {/* Main Content Panel Area */}
+      {/* Main Panel Content Area */}
       <div className="flex-1 flex flex-col min-w-0 overflow-y-auto">
         <main className="p-8 lg:p-12 space-y-10 max-w-screen-2xl w-full mx-auto">
-          {/* HEADER STRIP */}
+          {/* HEADER STRIP ROW */}
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 pb-6 border-b border-slate-200">
             <div>
               <div className="flex items-center gap-2 text-xs font-bold tracking-widest uppercase mb-1">
@@ -157,53 +144,17 @@ function MainDashboard() {
               </h2>
             </div>
 
-            {/* Action Bar controls */}
+            {/* Profile User Toolbar Actions Wrapper */}
             <div className="flex items-center gap-4 self-end md:self-auto bg-white px-5 py-2.5 rounded-2xl border border-slate-200/60 shadow-sm">
               <button
                 onClick={() => setIsDarkMode(!isDarkMode)}
-                className="relative flex items-center justify-between bg-slate-100 h-8 w-14 rounded-full p-1 cursor-pointer transition-colors border border-slate-200/40 shadow-inner"
-                aria-label="Toggle Theme Mode"
+                className="relative flex items-center justify-between bg-slate-100 h-8 w-14 rounded-full p-1 cursor-pointer border border-slate-200/40 shadow-inner"
               >
                 <span
                   className={`absolute top-[2px] left-[2px] h-[24px] w-[24px] rounded-full bg-white shadow border border-slate-200 transform transition-transform duration-300 flex items-center justify-center ${isDarkMode ? "translate-x-6" : "translate-x-0"}`}
                 >
-                  {isDarkMode ? (
-                    <svg
-                      className="w-3 h-3 text-amber-500"
-                      fill="currentColor"
-                      viewBox="0 0 20 20"
-                    >
-                      <path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 14.036l-.707.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 111.414 1.414zm0-10.113a1 1 0 010 1.414l-.707.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM4 11a1 1 0 100-2H3a1 1 0 100 2h1z" />
-                    </svg>
-                  ) : (
-                    <svg
-                      className="w-3 h-3 text-slate-600"
-                      fill="currentColor"
-                      viewBox="0 0 20 20"
-                    >
-                      <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
-                    </svg>
-                  )}
+                  {isDarkMode ? "🌙" : "☀️"}
                 </span>
-              </button>
-
-              <div className="h-6 w-[1px] bg-slate-200"></div>
-
-              <button className="relative text-slate-400 hover:text-[#600018] p-1.5 rounded-xl hover:bg-slate-50 transition-all group">
-                <span className="absolute top-1.5 right-2 w-2 h-2 bg-rose-500 rounded-full border-2 border-white ring-1 ring-rose-300 animate-pulse"></span>
-                <svg
-                  className="w-5 h-5 transform group-hover:rotate-12 transition-transform"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
-                  />
-                </svg>
               </button>
 
               <div className="h-6 w-[1px] bg-slate-200"></div>
@@ -224,7 +175,7 @@ function MainDashboard() {
             </div>
           </div>
 
-          {/* Core Content Routing Switches */}
+          {/* Core Navigation Tab Display Interfaces */}
           {currentTab === "dashboard" && (
             <div className="space-y-10 animate-fade-in">
               <ExecutiveKPIs isDarkMode={isDarkMode} />
@@ -281,7 +232,6 @@ function MainDashboard() {
           )}
         </main>
 
-        {/* Global Footer */}
         <footer className="mt-auto px-8 lg:px-12 py-6 border-t border-slate-200 bg-white flex flex-col sm:flex-row justify-between text-xs text-slate-400 font-medium font-oswald">
           <p>© 2026 Marinduque State University. All rights reserved.</p>
           <p className="tracking-wide text-[#600018] font-bold uppercase">
@@ -290,7 +240,6 @@ function MainDashboard() {
         </footer>
       </div>
 
-      {/* Session Modals */}
       {isLoggingOut && (
         <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-slate-900/40 backdrop-blur-md animate-fade-in">
           <div className="bg-white p-8 rounded-3xl shadow-2xl max-w-sm w-full mx-4 text-center">
@@ -301,9 +250,6 @@ function MainDashboard() {
             <h3 className="text-xl font-bold text-slate-900 font-oswald uppercase tracking-wide">
               Securing Session
             </h3>
-            <p className="text-sm text-slate-500 mt-2">
-              Logging out from MarSU Governance Matrix App...
-            </p>
           </div>
         </div>
       )}

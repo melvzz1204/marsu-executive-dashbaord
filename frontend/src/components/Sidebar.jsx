@@ -6,6 +6,8 @@ const Sidebar = ({
   setCurrentTab,
   handleLogout,
   formattedDate,
+  isOpen,
+  setIsOpen,
 }) => {
   const navigationItems = [
     {
@@ -125,28 +127,61 @@ const Sidebar = ({
   ];
 
   return (
-    <aside className="w-80 bg-[#600018] text-white flex flex-col justify-between sticky top-0 h-screen shadow-xl border-r border-[#D4AF37]/20 z-40">
-      <div className="flex flex-col pt-8 px-6 space-y-8 overflow-y-auto flex-1">
-        {/* Branding header area */}
-        <div className="flex items-center gap-3.5 pb-6 border-b border-white/10">
-          <div className="h-24 w-24 bg-white rounded-2xl flex items-center justify-center p-1.5 shadow-md flex-shrink-0">
+    <aside
+      className={`bg-[#600018] text-white flex flex-col justify-between sticky top-0 h-screen shadow-xl border-r border-[#D4AF37]/20 z-40 transition-all duration-300 ${
+        isOpen ? "w-80" : "w-20"
+      }`}
+    >
+      <div className="flex flex-col pt-8 px-4 space-y-8 overflow-y-auto flex-1 overflow-x-hidden">
+        {/* Branding Area: Hide typography when closed to avoid layout breaks */}
+        <div
+          className={`flex items-center gap-3.5 pb-6 border-b border-white/10 ${isOpen ? "px-2" : "justify-center"}`}
+        >
+          <div className="h-12 w-12 bg-white rounded-xl flex items-center justify-center p-1 shadow-md flex-shrink-0 transition-all duration-300">
             <img
               src={marsuLogo}
               alt="MarSU Logo"
               className="h-full w-full object-contain"
             />
           </div>
-          <div>
-            <h1 className="text-m font-extrabold uppercase tracking-wide leading-tight font-oswald text-white">
-              Marinduque State University
-            </h1>
-            <p className="text-[9px] font-bold text-[#D4AF37] tracking-widest uppercase mt-1">
-              Performance Intelligence
-            </p>
-          </div>
+          {isOpen && (
+            <div className="animate-fade-in whitespace-nowrap">
+              <h1 className="text-xs font-extrabold uppercase tracking-wide leading-tight font-oswald text-white">
+                Marinduque State
+              </h1>
+              <p className="text-[9px] font-bold text-[#D4AF37] tracking-widest uppercase mt-0.5">
+                Intelligence Matrix
+              </p>
+            </div>
+          )}
         </div>
 
-        {/* Dynamic Map Router Link Elements */}
+        {/* Action Toggle Controller Button inside the sidebar */}
+        <div
+          className={`flex ${isOpen ? "justify-end px-2" : "justify-center"}`}
+        >
+          <button
+            onClick={() => setIsOpen(!isOpen)}
+            className="p-1.5 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 text-[#D4AF37] transition-all"
+            aria-label="Toggle Sidebar Dimensions"
+          >
+            <svg
+              className={`w-5 h-5 transform transition-transform duration-300 ${!isOpen ? "rotate-180" : ""}`}
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M11 19l-7-7 7-7m8 14l-7-7 7-7"
+              />
+            </svg>
+          </button>
+        </div>
+
+        {/* Navigation Link Mapping Matrix */}
         <nav className="flex flex-col space-y-2 flex-1">
           {navigationItems.map((item) => {
             const isActive = currentTab === item.id;
@@ -154,11 +189,16 @@ const Sidebar = ({
               <button
                 key={item.id}
                 onClick={() => setCurrentTab(item.id)}
-                className={`flex items-center gap-6 px-4 py-3.5 rounded-xl font-semibold tracking-wide transition-all group relative ${
+                className={`flex items-center rounded-xl font-semibold tracking-wide transition-all group relative ${
+                  isOpen
+                    ? "px-4 py-3.5 gap-6 w-full"
+                    : "p-3.5 justify-center mx-auto"
+                } ${
                   isActive
                     ? "bg-white text-[#600018] shadow-md border-l-4 border-[#D4AF37]"
                     : "text-slate-200 hover:text-white hover:bg-white/10"
                 }`}
+                title={!isOpen ? item.label : ""}
               >
                 <span
                   className={
@@ -169,10 +209,14 @@ const Sidebar = ({
                 >
                   {item.icon}
                 </span>
-                <span className="font-oswald tracking-wide text-sm">
-                  {item.label}
-                </span>
-                {!isActive && (
+
+                {isOpen && (
+                  <span className="font-oswald tracking-wide text-sm whitespace-nowrap animate-fade-in">
+                    {item.label}
+                  </span>
+                )}
+
+                {!isActive && isOpen && (
                   <span className="absolute right-4 w-1.5 h-1.5 bg-[#D4AF37] rounded-full opacity-0 scale-50 group-hover:opacity-100 group-hover:scale-100 transition-all duration-300" />
                 )}
               </button>
@@ -180,11 +224,16 @@ const Sidebar = ({
           })}
         </nav>
 
-        {/* Logout Control Wrapper */}
+        {/* Logout Button Component Wrapper */}
         <div className="pt-4 pb-2 mt-auto border-t border-white/10">
           <button
             onClick={handleLogout}
-            className="w-full flex items-center gap-4 px-4 py-3.5 rounded-xl text-xs tracking-wide text-rose-200 hover:text-white bg-rose-500/10 hover:bg-rose-600/30 border border-rose-500/20 hover:border-rose-500/40 transition-all duration-200 group"
+            className={`flex items-center rounded-xl text-xs tracking-wide text-rose-200 hover:text-white bg-rose-500/10 hover:bg-rose-600/30 border border-rose-500/20 hover:border-rose-500/40 transition-all duration-200 group ${
+              isOpen
+                ? "px-4 py-3.5 gap-4 w-full"
+                : "p-3.5 justify-center mx-auto"
+            }`}
+            title={!isOpen ? "Logout" : ""}
           >
             <span className="text-rose-400 group-hover:text-rose-200 transition-colors">
               <svg
@@ -201,31 +250,42 @@ const Sidebar = ({
                 />
               </svg>
             </span>
-            <span className="font-oswald tracking-wide text-sm uppercase">
-              Logout
-            </span>
+            {isOpen && (
+              <span className="font-oswald tracking-wide text-sm uppercase whitespace-nowrap animate-fade-in">
+                Logout
+              </span>
+            )}
           </button>
         </div>
       </div>
 
-      {/* Persistent System Metadata Connection Strip */}
-      <div className="p-6 border-t border-white/10 bg-[#4a0012]">
-        <div className="flex items-center justify-between">
-          <div className="flex flex-col">
-            <span className="text-[10px] text-slate-300 uppercase tracking-wider font-bold">
-              System Date
-            </span>
-            <span className="text-xs text-white font-medium mt-0.5 font-oswald">
-              {formattedDate}
-            </span>
+      {/* Connection Metadata Footer strip */}
+      <div
+        className={`p-4 border-t border-white/10 bg-[#4a0012] ${isOpen ? "" : "text-center"}`}
+      >
+        {isOpen ? (
+          <div className="flex items-center justify-between animate-fade-in">
+            <div className="flex flex-col">
+              <span className="text-[10px] text-slate-300 uppercase tracking-wider font-bold">
+                System Date
+              </span>
+              <span className="text-xs text-white font-medium mt-0.5 font-oswald">
+                {formattedDate}
+              </span>
+            </div>
+            <div className="flex items-center gap-1.5 bg-white/10 px-2 py-0.5 rounded-full border border-white/10">
+              <div className="h-1.5 w-1.5 rounded-full bg-[#D4AF37] animate-pulse"></div>
+              <span className="text-[9px] uppercase font-bold text-slate-200 font-oswald">
+                Live
+              </span>
+            </div>
           </div>
-          <div className="flex items-center gap-2 bg-white/10 px-2.5 py-1 rounded-full border border-white/10">
-            <div className="h-2 w-2 rounded-full bg-[#D4AF37] animate-pulse"></div>
-            <span className="text-[10px] uppercase font-bold text-slate-200 tracking-wide font-oswald">
-              Live Connection
-            </span>
-          </div>
-        </div>
+        ) : (
+          <div
+            className="inline-block h-2 w-2 rounded-full bg-[#D4AF37] animate-pulse"
+            title={`Live Connection: ${formattedDate}`}
+          ></div>
+        )}
       </div>
     </aside>
   );
