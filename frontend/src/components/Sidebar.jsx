@@ -154,22 +154,23 @@ const Sidebar = ({
       </button>
 
       <div className="flex flex-col pt-8 px-4 space-y-8 overflow-y-auto flex-1 overflow-x-hidden">
-        {/* Branding Area: Hide typography when closed to avoid layout breaks */}
         <div
           className={`flex items-center gap-3.5 pb-6 border-b border-white/10 ${isOpen ? "px-2" : "justify-center"}`}
         >
-          <div className="h-23 w-23 rounded-xl flex items-center justify-center  shrink-0 transition-all duration-300">
+          <div
+            className={`rounded-xl flex items-center justify-center shrink-0 transition-all duration-300 ${isOpen ? "h-23 w-23" : "h-14 w-14"}`}
+          >
             <img
               src={marsuLogo}
               alt="MarSU Logo"
               className="h-full w-full object-contain"
             />
           </div>
+
           {isOpen && (
             <div className="animate-fade-in whitespace-nowrap">
               <h1 className="text-l font-extrabold uppercase tracking-wide leading-tight font-oswald text-white">
-                Marinduque State <br />
-                university
+                Marinduque State <br /> University
               </h1>
               <p className="text-[9px] font-bold text-[#D4AF37] tracking-widest uppercase mt-0.5">
                 Intelligence Matrix
@@ -177,7 +178,6 @@ const Sidebar = ({
             </div>
           )}
         </div>
-
         {/* Navigation Link Mapping Matrix */}
         <nav className="flex flex-col space-y-2 flex-1">
           {navigationItems.map((item) => {
