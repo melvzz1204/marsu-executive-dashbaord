@@ -3,7 +3,7 @@ const cors = require("cors");
 
 // 1. Import Route Files
 const authRoutes = require("./routes/authRoutes");
-const analyticsRoutes = require("./routes/analyticsRoutes");
+/* const analyticsRoutes = require("./routes/analyticsRoutes"); */
 
 const app = express();
 const corsOptions = {
@@ -25,7 +25,7 @@ app.use((req, res, next) => {
 
 // 2. Mount Routes with versioned API paths
 app.use("/api/v1/auth", authRoutes);
-app.use("/api/v1/analytics", analyticsRoutes);
+/* app.use("/api/v1/analytics", analyticsRoutes); */
 
 app.use((req, res) => {
   console.log(`[DEBUG LOG] Received a ${req.method} request to ${req.url}`);
