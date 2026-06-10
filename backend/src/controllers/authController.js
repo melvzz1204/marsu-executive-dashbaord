@@ -1,6 +1,7 @@
 const User = require("../models/user");
 const jwt = require("jsonwebtoken");
 
+// @desc    Authenticate User & Get Token
 // @route   POST /api/v1/auth/login
 exports.login = async (req, res) => {
   try {
@@ -53,6 +54,8 @@ exports.login = async (req, res) => {
   }
 };
 
+// @desc    Register New User
+// @route   POST /api/v1/auth/register
 exports.register = async (req, res) => {
   try {
     const { name, email, password, role } = req.body;
@@ -86,6 +89,39 @@ exports.register = async (req, res) => {
       success: false,
       message: "Server error during registration. Please try again.",
       error: error.message,
+    });
+  }
+};
+
+exports.getUserName = async (req, res) => {
+  try {
+    if (!req.user || !req.user.id) {
+      return res.status(401).json({
+        success: false,
+        message: "Access Denied",
+      });
+    }
+
+    // 💡 CRITICAL FIX: Make sure "role" is added here inside the select string!
+    const user = await User.findById(req.user.id).select("name role");
+
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "User record not found.",
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      name: user.name || "Dr. Diosdado P. Zulueta",
+      role: user.role || "staff", // 💡 CRITICAL FIX: Sends the role to the frontend payload
+    });
+  } catch (error) {
+    console.error("❌ Get User Name Error:", error.message);
+    return res.status(500).json({
+      success: false,
+      message: "Server error fetching profile data.",
     });
   }
 };

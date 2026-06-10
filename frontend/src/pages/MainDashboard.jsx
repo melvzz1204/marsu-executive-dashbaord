@@ -4,6 +4,7 @@ import ExecutiveKPIs from "../components/ExecutiveKPIs";
 import EnrollmentChart from "../components/EnrollmentChart";
 import ResearchMetrics from "../components/ResearchMetrics";
 import BudgetUtilization from "../components/BudgetUtilization";
+import api from "../api/axios"; // 🛠️ FIXED: Correct path and spelling configuration
 
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { Pie } from "react-chartjs-2";
@@ -34,7 +35,6 @@ const DistributionPieWidget = () => {
     datasets: [
       {
         data: [1690, 1580, 1140, 1030, 680],
-        // 🌟 FIXED: Vibrant colors optimized to pop perfectly on a light white background
         backgroundColor: [
           "#660033",
           "#C5A059",
@@ -48,7 +48,6 @@ const DistributionPieWidget = () => {
     ],
   };
 
-  // 🌟 FIXED: Font colors locked to clean dark slates to read beautifully on a white card
   const options = {
     responsive: true,
     maintainAspectRatio: false,
@@ -56,7 +55,7 @@ const DistributionPieWidget = () => {
       legend: {
         position: "right",
         labels: {
-          color: "#475569", // Fixed dark grey text for the legend labels
+          color: "#475569",
           boxWidth: 8,
           font: { size: 11, family: "Inter, sans-serif" },
         },
@@ -73,10 +72,8 @@ const DistributionPieWidget = () => {
   };
 
   return (
-    /* 🌟 FIXED: Removed dark-mode conditional classes. Completely locked to a white card structure */
     <div className="p-8 rounded-3xl shadow-[0_20px_50px_-12px_rgba(0,0,0,0.03)] border border-slate-100 bg-white text-slate-900 h-full flex flex-col justify-between transition-all duration-300">
       <div>
-        {/* Subtitle tag matches the beautiful university maroon flavor */}
         <span className="text-[10px] font-bold uppercase tracking-widest block mb-1 text-[#660033]/80">
           Institutional Analytics
         </span>
@@ -91,27 +88,61 @@ const DistributionPieWidget = () => {
     </div>
   );
 };
+
 function MainDashboard() {
   const [currentTab, setCurrentTab] = useState("dashboard");
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [presidentName, setPresidentName] = useState(
     "Loading Executive Profile...",
   );
+  const [userRole, setUserRole] = useState("staff");
+  const [userInitials, setUserInitials] = useState(".."); // 🛠️ FIXED: Re-added initials state hook tracker
   const [isLoggingOut, setIsLoggingOut] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+
+  // 🛠️ FIXED: Re-added administrative initials computation parser engine
+  const generateInitials = (fullName) => {
+    if (!fullName || fullName.includes("Loading")) return "..";
+    const sanitizedName = fullName.replace(
+      /^(Dr\.|Mr\.|Ms\.|Mrs\.|Prof\.)\s+/i,
+      "",
+    );
+    const structuralTokens = sanitizedName.trim().split(/\s+/);
+    if (structuralTokens.length === 1) {
+      return structuralTokens[0].slice(0, 2).toUpperCase();
+    }
+    const firstInitial = structuralTokens[0].charAt(0);
+    const lastInitial = structuralTokens[structuralTokens.length - 1].charAt(0);
+    return `${firstInitial}${lastInitial}`.toUpperCase();
+  };
 
   useEffect(() => {
     const fetchExecutiveOwner = async () => {
       try {
-        await new Promise((resolve) => setTimeout(resolve, 800));
-        setPresidentName("Dr. Diosdado P. Zulueta");
+        const response = await api.get("/auth/name");
+
+        const targetName = response.data?.name || "Dr. Diosdado P. Zulueta";
+        // 🌟 Extract role from backend payload, falling back to 'staff' if undefined
+        const targetRole = response.data?.role || "staff";
+
+        setPresidentName(targetName);
+        setUserRole(targetRole); // Saves role state to state engine
+        setUserInitials(generateInitials(targetName));
       } catch (error) {
-        setPresidentName("Dr. Diosdado P. Zulueta");
+        console.error(
+          "Dashboard core failed to pull validated session profile data:",
+          error,
+        );
+
+        const fallbackName = "Dr. Diosdado P. Zulueta";
+        setPresidentName(fallbackName);
+        setUserRole("executive"); // Safe dashboard default fallback
+        setUserInitials(generateInitials(fallbackName));
       }
     };
+
     fetchExecutiveOwner();
   }, []);
-
   const formattedDate = new Date().toLocaleDateString("en-US", {
     weekday: "short",
     year: "numeric",
@@ -127,7 +158,6 @@ function MainDashboard() {
   };
 
   return (
-    /* 🌟 FIX 1: Linked background wrapper and text base states conditionally to isDarkMode state toggles */
     <div
       className={`flex min-h-screen font-sans antialiased transition-colors duration-300 ${
         isDarkMode
@@ -149,7 +179,6 @@ function MainDashboard() {
       <div className="flex-1 flex flex-col min-w-0 overflow-y-auto">
         <main className="p-8 lg:p-12 space-y-10 max-w-screen-2xl w-full mx-auto">
           {/* HEADER STRIP ROW */}
-          {/* 🌟 FIX 2: Added conditional color variations for header border controls */}
           <div
             className={`flex flex-col md:flex-row justify-between items-start md:items-center gap-4 pb-6 border-b transition-colors duration-300 ${
               isDarkMode ? "border-slate-800" : "border-slate-200"
@@ -170,12 +199,11 @@ function MainDashboard() {
               <h2
                 className={`text-2xl font-extrabold tracking-tight font-oswald uppercase ${isDarkMode ? "text-white" : "text-[#600018]"}`}
               >
-                Digital Organizational Diagnostics & Intelligence
+                President’s Dashboard of Operational & Developmental Indicators
               </h2>
             </div>
 
             {/* Profile User Toolbar Actions Wrapper */}
-            {/* 🌟 FIX 3: Shifted active action bar colors using state toggles */}
             <div
               className={`flex items-center gap-4 self-end md:self-auto px-5 py-2.5 rounded-2xl border shadow-sm transition-all duration-300 ${
                 isDarkMode
@@ -209,12 +237,15 @@ function MainDashboard() {
                   >
                     {presidentName}
                   </span>
-                  <span className="text-[10px] text-[#D4AF37] bg-[#600018]/5 px-2 py-0.5 rounded-md font-extrabold tracking-wider uppercase inline-block self-end mt-0.5">
-                    Executive Owner
+                  <span className="text-[10px] text-[#D4AF37] bg-[#600018]/5 px-2 py-0.5 rounded-md font-extrabold tracking-wider uppercase inline-block self-end mt-0.5 select-none">
+                    {userRole.toLowerCase() === "executive"
+                      ? "Executive Owner"
+                      : "Admin Staff"}
                   </span>
                 </div>
-                <div className="h-10 w-10 bg-gradient-to-tr from-[#600018] to-[#660033] text-white font-oswald font-bold rounded-xl flex items-center justify-center text-sm shadow-sm ring-2 ring-[#D4AF37]/20">
-                  DZ
+                {/* 🌟 FIXED: Output the computed dynamic user tracking initials badge */}
+                <div className="h-10 w-10 bg-gradient-to-tr from-[#600018] to-[#660033] text-white font-oswald font-bold rounded-xl flex items-center justify-center text-sm shadow-sm ring-2 ring-[#D4AF37]/20 select-none">
+                  {userInitials}
                 </div>
               </div>
             </div>
