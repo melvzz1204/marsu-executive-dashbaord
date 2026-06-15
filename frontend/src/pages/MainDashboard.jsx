@@ -2,9 +2,10 @@ import React, { useState, useEffect } from "react";
 import Sidebar from "../components/Sidebar";
 import ExecutiveKPIs from "../components/ExecutiveKPIs";
 import EnrollmentChart from "../components/EnrollmentChart";
-import ResearchMetrics from "../components/ResearchMetrics";
-import BudgetUtilization from "../components/BudgetUtilization";
-import api from "../api/axios"; // 🛠️ FIXED: Correct path and spelling configuration
+import ResearchMetrics from "../components/ResearchMetricsChart";
+import BudgetUtilization from "../components/BudgetUtilizationChart";
+import Report from "../components/Reports";
+import api from "../api/axios"; //
 
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { Pie } from "react-chartjs-2";
@@ -312,6 +313,12 @@ function MainDashboard() {
           {currentTab === "budget" && (
             <div className="animate-fade-in">
               <BudgetUtilization isDarkMode={isDarkMode} />
+            </div>
+          )}
+
+          {currentTab === "reports" && (
+            <div className="animate-fade-in">
+              <Report isDarkMode={isDarkMode} />
             </div>
           )}
         </main>

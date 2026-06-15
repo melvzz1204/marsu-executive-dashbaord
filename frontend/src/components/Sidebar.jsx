@@ -1,4 +1,3 @@
-import React from "react";
 import marsuLogo from "../assets/marsu-logo.png";
 
 const Sidebar = ({
@@ -69,7 +68,7 @@ const Sidebar = ({
     },
     {
       id: "enrollment",
-      label: "Enrollment",
+      label: "Enrollments",
       icon: (
         <svg
           className="w-5 h-5"
@@ -124,11 +123,31 @@ const Sidebar = ({
         </svg>
       ),
     },
+    {
+      id: "reports", // Swapped from "Report" to matching lowercase routing state
+      label: "Reports",
+      icon: (
+        <svg
+          className="w-5 h-5"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          viewBox="0 0 24 24"
+        >
+          {/* Swapped duplicate charts icon with the verified Dossier Summary Path */}
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+          />
+        </svg>
+      ),
+    },
   ];
 
   return (
     <aside
-      className={`bg-[#600018] text-white flex flex-col justify-between sticky top-0 h-screen shadow-xl border-r border-[#D4AF37]/20 z-40 transition-all duration-300 ${
+      className={`bg-[#600018] text-white flex flex-col justify-between sticky top-0 h-screen shadow-xl border-r border-[#D4AF37]/20 z-40 transition-all duration-300 scroll-auto ${
         isOpen ? "w-80" : "w-20"
       }`}
     >
@@ -153,7 +172,7 @@ const Sidebar = ({
         </svg>
       </button>
 
-      <div className="flex flex-col pt-8 px-4 space-y-8 overflow-y-auto flex-1 overflow-x-hidden">
+      <div className="flex flex-col pt-8 px-4 space-y-8 overflow-y-auto no-scrollbar flex-1 overflow-x-hidden">
         <div
           className={`flex items-center gap-3.5 pb-6 border-b border-white/10 ${isOpen ? "px-2" : "justify-center"}`}
         >
