@@ -1,5 +1,3 @@
-import React from "react";
-
 // Individual reusable KPI card with modern micro-interactions
 const KPICard = ({
   title,

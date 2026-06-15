@@ -1,5 +1,3 @@
-import React from "react";
-
 export function LoginBackground() {
   // Generate random fixed positions and fade delays for left side
   const leftCubes = Array.from({ length: 15 }).map((_, i) => ({

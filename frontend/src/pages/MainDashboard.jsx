@@ -253,7 +253,7 @@ function MainDashboard() {
             </div>
           </div>
 
-          {/* Core Navigation Tab Display Interfaces */}
+          {/* Navigation Tab Display Interfaces */}
           {currentTab === "dashboard" && (
             <div className="space-y-10 animate-fade-in">
               <ExecutiveKPIs isDarkMode={isDarkMode} />
@@ -272,6 +272,11 @@ function MainDashboard() {
           {currentTab === "Academic Performance" && (
             <div className="space-y-10 animate-fade-in">
               <AcademicPerformance isDarkMode={isDarkMode} />
+              <p>
+                This data monitors how effectively students are moving through
+                the educational pipeline. It is structural, continuous, and
+                highly quantitative.
+              </p>
             </div>
           )}
 

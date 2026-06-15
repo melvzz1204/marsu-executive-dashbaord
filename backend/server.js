@@ -2,8 +2,7 @@ require("dotenv").config();
 const cors = require("cors");
 const connectDB = require("../backend/src/config/db");
 
-const app = require("./src/app"); // Adjust path if server.js and app.js are in different folders
-
+const app = require("./src/app");
 const PORT = process.env.PORT || 5000;
 
 connectDB();

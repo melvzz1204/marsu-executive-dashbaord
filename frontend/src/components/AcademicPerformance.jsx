@@ -1,5 +1,3 @@
-import React from "react";
-
 function AcademicPerformance() {
   return <div className="uppercase text-2xl">Academic Performance</div>;
 }
