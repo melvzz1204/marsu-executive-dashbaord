@@ -1,7 +1,9 @@
-import React from "react";
-
 function Reports() {
-  return <div>Reports</div>;
+  return (
+    <div>
+      <h1 className="uppercase">this is the report section</h1>
+    </div>
+  );
 }
 
 export default Reports;

@@ -1,8 +1,10 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import Sidebar from "../components/Sidebar";
 import ExecutiveKPIs from "../components/ExecutiveKPIs";
 import EnrollmentChart from "../components/EnrollmentChart";
+import AcademicPerformance from "../components/AcademicPerformance";
 import ResearchMetrics from "../components/ResearchMetricsChart";
+import Achievements from "../components/AchievementsCharts";
 import BudgetUtilization from "../components/BudgetUtilizationChart";
 import Report from "../components/Reports";
 import api from "../api/axios"; //
@@ -71,7 +73,6 @@ const DistributionPieWidget = () => {
       },
     },
   };
-
   return (
     <div className="p-8 rounded-3xl shadow-[0_20px_50px_-12px_rgba(0,0,0,0.03)] border border-slate-100 bg-white text-slate-900 h-full flex flex-col justify-between transition-all duration-300">
       <div>
@@ -269,26 +270,14 @@ function MainDashboard() {
           )}
 
           {currentTab === "Academic Performance" && (
-            <div
-              className={`rounded-3xl p-8 shadow-[0_20px_50px_-12px_rgba(0,0,0,0.04)] text-center py-20 animate-fade-in ${isDarkMode ? "bg-slate-800" : "bg-white"}`}
-            >
-              <h3
-                className={`text-xl font-bold font-oswald uppercase ${isDarkMode ? "text-white" : "text-slate-900"}`}
-              >
-                Academic Performance Analytics
-              </h3>
+            <div className="space-y-10 animate-fade-in">
+              <AcademicPerformance isDarkMode={isDarkMode} />
             </div>
           )}
 
           {currentTab === "achievements" && (
-            <div
-              className={`rounded-3xl p-8 shadow-[0_20px_50px_-12px_rgba(0,0,0,0.04)] text-center py-20 animate-fade-in ${isDarkMode ? "bg-slate-800" : "bg-white"}`}
-            >
-              <h3
-                className={`text-xl font-bold font-oswald uppercase ${isDarkMode ? "text-white" : "text-slate-900"}`}
-              >
-                Institutional Accreditations & Honors
-              </h3>
+            <div className="space-y-10 animate-fade-in">
+              <Achievements isDarkMode={isDarkMode} />
             </div>
           )}
 
