@@ -201,7 +201,7 @@ function MainDashboard() {
               <h2
                 className={`text-2xl font-extrabold tracking-tight font-oswald uppercase ${isDarkMode ? "text-white" : "text-[#600018]"}`}
               >
-                President’s Dashboard of Operational & Developmental Indicators
+                Presidential Dashboard for Organizational Data and Insights
               </h2>
             </div>
 
