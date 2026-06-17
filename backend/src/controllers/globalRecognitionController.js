@@ -54,7 +54,7 @@ exports.createMetricCard = async (req, res) => {
   }
 };
 
-// @desc    Update an existing metric card entry (e.g., adding sub-metrics)
+// @desc    Update an existing matrix card or append a single sub-metric item
 // @route   PUT /api/v1/global-recognition/:id
 // @access  Private (Admin Only)
 exports.updateMetricCard = async (req, res) => {
@@ -68,11 +68,21 @@ exports.updateMetricCard = async (req, res) => {
       });
     }
 
-    // Perform target update
-    card = await GlobalRecognition.findByIdAndUpdate(req.params.id, req.body, {
-      new: true, // Returns the newly modified document instead of the old one
-      runValidators: true, // Forces Mongoose schemas rules to re-verify inputs
-    });
+    // 🔥 OPTION A: If you just want to append a single new metric row dynamically
+    if (req.body.newMetric) {
+      card = await GlobalRecognition.findByIdAndUpdate(
+        req.params.id,
+        { $push: { metrics: req.body.newMetric } }, // Uses MongoDB atomic $push matrix array extension
+        { new: true, runValidators: true }
+      );
+    } else {
+      // 📝 OPTION B: Comprehensive structure update (Full configuration overwrite fallback)
+      card = await GlobalRecognition.findByIdAndUpdate(
+        req.params.id,
+        req.body,
+        { new: true, runValidators: true }
+      );
+    }
 
     res.status(200).json({
       success: true,

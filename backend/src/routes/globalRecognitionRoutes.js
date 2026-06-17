@@ -25,7 +25,8 @@ router
 router
   .route("/:id")
   // ONLY admins can update matrix content (e.g., adding sub-metrics)
-  .put(authorize("admin"), updateMetricCard) // 💡 Added the PUT route handler
+  .put(authorize("admin"), updateMetricCard)
+  .patch(authorize("admin"), updateMetricCard)
   // ONLY admins can delete matrix content
   .delete(authorize("admin"), deleteMetricCard);
 
