@@ -3,6 +3,7 @@ const cors = require("cors");
 
 // 1. Import Route Files
 const authRoutes = require("./routes/authRoutes");
+const globalRecognitionRoutes = require("./routes/globalRecognitionRoutes"); // <-- Added this
 /* const analyticsRoutes = require("./routes/analyticsRoutes"); */
 
 const app = express();
@@ -12,10 +13,8 @@ const corsOptions = {
   credentials: true,
 };
 
-app.use(cors(corsOptions));
-
 // Global Middleware
-app.use(cors());
+app.use(cors(corsOptions)); // Keep this custom configuration
 app.use(express.json());
 
 app.use((req, res, next) => {
@@ -23,7 +22,11 @@ app.use((req, res, next) => {
   next();
 });
 
+// 2. Mount Route Files
 app.use("/api/v1/auth", authRoutes);
+app.use("/api/v1/global-recognition", globalRecognitionRoutes); // <-- Added this
+
+// Catch-All 404 Middleware
 app.use((req, res) => {
   console.log(`[DEBUG LOG] Received a ${req.method} request to ${req.url}`);
   res
