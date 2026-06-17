@@ -289,7 +289,6 @@ function MainDashboard() {
           {currentTab === "enrollment" && (
             <div className="space-y-10 animate-fade-in">
               <EnrollmentChart isDarkMode={isDarkMode} />
-              <DistributionPieWidget isDarkMode={isDarkMode} />
             </div>
           )}
 

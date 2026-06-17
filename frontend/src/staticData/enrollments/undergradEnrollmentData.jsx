@@ -91,11 +91,11 @@ export default function UndergradEnrollment() {
 
         {/* GROWTH KPI BANNER FLAG */}
         <div className="bg-[#660033] text-white px-5 py-3 rounded-xl flex items-center gap-4 border-b-4 border-[#D4AF37] self-start lg:self-center shrink-0">
-          <div className="flex items-center justify-center bg-white/10 w-10 h-10 rounded-lg text-sm font-bold">
+          <div className="flex items-center justify-center bg-white/10 w-10 h-10 rounded-lg text-lg font-bold text-emerald-400 shadow-inner">
             ▲
           </div>
           <div>
-            <span className="block text-2xl font-black text-[#FFD700] leading-none tracking-tight">
+            <span className="block text-2xl font-black text-emerald-400 leading-none tracking-tight">
               +{ENROLLMENT_GROWTH_KPI?.percentage || "0.00%"}
             </span>
             <span className="block text-[9px] uppercase tracking-wider text-slate-200 mt-1 font-sans font-semibold">
