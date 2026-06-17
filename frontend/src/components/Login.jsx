@@ -163,7 +163,7 @@ const Login = () => {
           {/* Central Core System Pitch Descriptive Layer */}
           <div className="my-auto pt-12 pb-8 relative z-10">
             <h3 className="text-2xl font-black font-oswald tracking-tight uppercase leading-tight max-w-sm">
-              President’s Dashboard of Operational & Developmental Indicators
+              Presidential Dashboard for Organizational Data and Insights
             </h3>
             <p className="text-xs text-slate-300 mt-3 leading-relaxed max-w-xs font-light">
               Secure processing terminal engineered to evaluate state academic
