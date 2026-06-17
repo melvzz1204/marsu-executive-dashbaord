@@ -68,7 +68,7 @@ exports.updateMetricCard = async (req, res) => {
       });
     }
 
-    // 🔥 OPTION A: If you just want to append a single new metric row dynamically
+    // If you just want to append a single new metric row dynamically
     if (req.body.newMetric) {
       card = await GlobalRecognition.findByIdAndUpdate(
         req.params.id,
@@ -76,7 +76,7 @@ exports.updateMetricCard = async (req, res) => {
         { new: true, runValidators: true }
       );
     } else {
-      // 📝 OPTION B: Comprehensive structure update (Full configuration overwrite fallback)
+      // comprehensive structure update (Full configuration overwrite fallback)
       card = await GlobalRecognition.findByIdAndUpdate(
         req.params.id,
         req.body,
