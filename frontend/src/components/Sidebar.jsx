@@ -1,6 +1,4 @@
 import marsuLogo from "../assets/marsu-logo.png";
-import AchievementsCharts from "./AchievementsCharts";
-
 const Sidebar = ({
   currentTab,
   setCurrentTab,
@@ -117,7 +115,7 @@ const Sidebar = ({
     /* General Administration and Support Services*/
     {
       id: "general administration",
-      label: "General Administration & Support Services",
+      label: `General Administration \n& Support Services`,
       icon: (
         <svg
           className="w-5 h-5"
@@ -292,14 +290,14 @@ const Sidebar = ({
                   className={
                     isActive
                       ? "text-[#600018]"
-                      : "text-[#D4AF37]/80 group-hover:text-[#D4AF37]"
+                      : "text-[#D4AF37]/80 group-hover:text-[#D4AF37] whitespace-pre-line"
                   }
                 >
                   {item.icon}
                 </span>
 
                 {isOpen && (
-                  <span className="font-oswald tracking-wide text-sm whitespace-nowrap animate-fade-in">
+                  <span className="tracking-wide text-xs text-left whitespace-pre-line leading-tight animate-fade-in flex-1">
                     {item.label}
                   </span>
                 )}
