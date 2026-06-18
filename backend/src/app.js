@@ -3,7 +3,7 @@ const cors = require("cors");
 
 // 1. Import Route Files
 const authRoutes = require("./routes/authRoutes");
-const globalRecognitionRoutes = require("./routes/globalRecognitionRoutes"); // <-- Added this
+const globalRecognitionRoutes = require("./routes/achievements/globalRecognitionRoutes");
 /* const analyticsRoutes = require("./routes/analyticsRoutes"); */
 
 const app = express();
