@@ -1,73 +1,120 @@
-// Local static data block to prevent import errors
-const ENROLLMENT_GROWTH_KPI = {
-  percentage: "5.34%",
-  direction: "UP",
-  compareTerm: "1st Semester of AY 2025-2026",
-  baseTerm: "1st Semester of AY 2024-2025",
-};
+import React from "react";
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+} from "chart.js";
+import { Bar } from "react-chartjs-2";
+import {
+  CAMPUS_ENROLLMENT_DATA,
+  ENROLLMENT_GROWTH_KPI,
+} from "./enrollmentData";
 
-const CAMPUS_ENROLLMENT_DATA = [
-  {
-    semester: "AY 22-23 S1",
-    main: 7343,
-    stacruz: 479,
-    torrijos: 110,
-    gasan: 315,
-    total: 8247,
-  },
-  {
-    semester: "AY 22-23 S2",
-    main: 6971,
-    stacruz: 472,
-    torrijos: 112,
-    gasan: 283,
-    total: 7838,
-  },
-  {
-    semester: "AY 23-24 S1",
-    main: 7313,
-    stacruz: 983,
-    torrijos: 243,
-    gasan: 387,
-    total: 8926,
-  },
-  {
-    semester: "AY 23-24 S2",
-    main: 7084,
-    stacruz: 960,
-    torrijos: 215,
-    gasan: 347,
-    total: 8606,
-  },
-  {
-    semester: "AY 24-25 S1",
-    main: 7719,
-    stacruz: 982,
-    torrijos: 347,
-    gasan: 430,
-    total: 9478,
-  },
-  {
-    semester: "AY 24-25 S2",
-    main: 7505,
-    stacruz: 965,
-    torrijos: 338,
-    gasan: 396,
-    total: 9204,
-  },
-  {
-    semester: "AY 25-26 S1",
-    main: 8090,
-    stacruz: 918,
-    torrijos: 298,
-    gasan: 390,
-    total: 9696,
-  },
-];
+// Register Core Chart.js Components and Engines
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+);
 
 export default function UndergradEnrollment() {
-  // Chart height capacity setup (Matches image ceiling max limit scale)
-  const absoluteMaxCapacity = 10000;
+  // Extract and format labels and datasets dynamically from raw file data array
+  const labels = CAMPUS_ENROLLMENT_DATA.map((row) => row.semester);
+
+  const chartData = {
+    labels,
+    datasets: [
+      {
+        label: "Main Campus",
+        data: CAMPUS_ENROLLMENT_DATA.map((row) => row.main || 0),
+        backgroundColor: "#660033", // Executive MarSU Maroon
+        borderRadius: {
+          topLeft: 0,
+          topRight: 0,
+          bottomLeft: 0,
+          bottomRight: 0,
+        },
+      },
+      {
+        label: "Sta. Cruz",
+        data: CAMPUS_ENROLLMENT_DATA.map((row) => row.stacruz || 0),
+        backgroundColor: "#0284c7", // Sky-600 Blue
+      },
+      {
+        label: "Torrijos",
+        data: CAMPUS_ENROLLMENT_DATA.map((row) => row.torrijos || 0),
+        backgroundColor: "#16a34a", // Emerald-600 Green
+      },
+      {
+        label: "Gasan",
+        data: CAMPUS_ENROLLMENT_DATA.map((row) => row.gasan || 0),
+        backgroundColor: "#b45309", // Amber-700
+        // Apply smooth rounding cap only to top dataset block in stack context
+        borderRadius: {
+          topLeft: 6,
+          topRight: 6,
+          bottomLeft: 0,
+          bottomRight: 0,
+        },
+        borderSkipped: false,
+      },
+    ],
+  };
+
+  // Configure Chart Interactions and Strict Axis Caps
+  const options = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        display: false, // Hidden because your beautiful custom layout legend row handles this!
+      },
+      tooltip: {
+        backgroundColor: "rgba(15, 23, 42, 0.9)", // Slate-900 Context Look
+        titleFont: { family: "Oswald, sans-serif", size: 12 },
+        bodyFont: { family: "monospace", size: 11 },
+        padding: 10,
+        cornerRadius: 8,
+        callbacks: {
+          label: (context) =>
+            ` ${context.dataset.label}: ${context.raw.toLocaleString()}`,
+          footer: (tooltipItems) => {
+            const sum = tooltipItems.reduce((a, b) => a + b.parsed.y, 0);
+            return `TOTAL AUDIT: ${sum.toLocaleString()}`;
+          },
+        },
+      },
+    },
+    scales: {
+      x: {
+        stacked: true,
+        grid: { display: false },
+        ticks: {
+          color: "#64748b", // Slate-500
+          font: { family: "Oswald, sans-serif", size: 10, weight: "bold" },
+        },
+      },
+      y: {
+        stacked: true,
+        max: 10000, // Explicitly locks axis scale ceiling capacity
+        grid: {
+          color: "#f1f5f9", // Slate-100 dashed gridlines
+        },
+        ticks: {
+          color: "#94a3b8", // Slate-400
+          font: { family: "monospace", size: 10, weight: "bold" },
+          stepSize: 2500,
+        },
+      },
+    },
+  };
 
   return (
     <div className="bg-white p-6 md:p-8 rounded-2xl shadow-[0_30px_60px_-15px_rgba(0,0,0,0.03)] border border-slate-100 flex flex-col gap-6 font-oswald animate-fade-in">
@@ -75,8 +122,7 @@ export default function UndergradEnrollment() {
       <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 pb-6 border-b border-slate-100">
         <div className="space-y-1.5">
           <span className="text-[11px] uppercase tracking-widest text-[#660033] font-bold block">
-            Institutional Growth Parameters (Ref: Screenshot 2026-06-16
-            092429.png)
+            Institutional Growth Parameters
           </span>
           <h2 className="text-3xl font-bold text-slate-900 tracking-tight uppercase">
             Higher Education Program Enrollment
@@ -128,111 +174,10 @@ export default function UndergradEnrollment() {
         </span>
       </div>
 
-      {/* VERTICAL STACKED GRAPH CONTAINER */}
-      <div className="overflow-x-auto no-scrollbar pt-4">
-        {/* Graph Core Viewport Frame */}
-        <div className="min-w-[700px] h-[340px] flex items-end justify-between border-b border-slate-200 pb-2 px-4 relative">
-          {/* BACKGROUND Y-AXIS GRIDLINES */}
-          <div className="absolute inset-x-0 top-0 bottom-0 flex flex-col justify-between pointer-events-none select-none">
-            <div className="w-full border-t border-dashed border-slate-100 relative">
-              <span className="absolute -top-2.5 left-0 text-[9px] font-bold text-slate-300 font-mono">
-                10,000
-              </span>
-            </div>
-            <div className="w-full border-t border-dashed border-slate-100 relative">
-              <span className="absolute -top-2.5 left-0 text-[9px] font-bold text-slate-300 font-mono">
-                7,500
-              </span>
-            </div>
-            <div className="w-full border-t border-dashed border-slate-100 relative">
-              <span className="absolute -top-2.5 left-0 text-[9px] font-bold text-slate-300 font-mono">
-                5,000
-              </span>
-            </div>
-            <div className="w-full border-t border-dashed border-slate-100 relative">
-              <span className="absolute -top-2.5 left-0 text-[9px] font-bold text-slate-300 font-mono">
-                2,500
-              </span>
-            </div>
-          </div>
-
-          {/* DYNAMIC VERTICAL BARS ENGINE */}
-          {CAMPUS_ENROLLMENT_DATA.map((row, idx) => {
-            // Proportional layout mathematics (Height logic)
-            const mainPct = ((row.main || 0) / absoluteMaxCapacity) * 100;
-            const cruzPct = ((row.stacruz || 0) / absoluteMaxCapacity) * 100;
-            const torrijosPct =
-              ((row.torrijos || 0) / absoluteMaxCapacity) * 100;
-            const gasanPct = ((row.gasan || 0) / absoluteMaxCapacity) * 100;
-            const totalPct = (row.total / absoluteMaxCapacity) * 100;
-
-            return (
-              <div
-                key={idx}
-                className="flex flex-col items-center flex-1 group z-10"
-              >
-                {/* POP OVER TOTAL METRIC */}
-                <div className="mb-2 text-center opacity-80 group-hover:opacity-100 transition-opacity">
-                  <span className="text-xs font-black font-mono text-slate-800 block">
-                    {row.total.toLocaleString()}
-                  </span>
-                </div>
-
-                {/* THE VERTICAL COLUMN BASE */}
-                <div
-                  style={{ height: `${totalPct * 3}px` }} // Scaled matrix spacing multiplier
-                  className="w-14 bg-slate-100 rounded-t-lg overflow-hidden flex flex-col-reverse relative shadow-md group-hover:shadow-lg transition-all duration-300"
-                >
-                  {/* Gasan (Bottom Layer in stacked context when building bottom-up) */}
-                  <div
-                    style={{ height: `${gasanPct * 3}px` }}
-                    className="bg-amber-700 w-full relative group/tooltip border-t border-black/10"
-                  >
-                    <span className="absolute inset-x-0 top-1/2 -translate-y-1/2 text-center text-[9px] font-bold font-mono text-white opacity-0 group-hover/tooltip:opacity-100 pointer-events-none transition-opacity bg-black/60 py-0.5">
-                      G:{row.gasan}
-                    </span>
-                  </div>
-
-                  {/* Torrijos */}
-                  <div
-                    style={{ height: `${torrijosPct * 3}px` }}
-                    className="bg-emerald-600 w-full relative group/tooltip border-t border-black/10"
-                  >
-                    <span className="absolute inset-x-0 top-1/2 -translate-y-1/2 text-center text-[9px] font-bold font-mono text-white opacity-0 group-hover/tooltip:opacity-100 pointer-events-none transition-opacity bg-black/60 py-0.5">
-                      T:{row.torrijos}
-                    </span>
-                  </div>
-
-                  {/* Sta Cruz */}
-                  <div
-                    style={{ height: `${cruzPct * 3}px` }}
-                    className="bg-sky-600 w-full relative group/tooltip border-t border-black/10"
-                  >
-                    <span className="absolute inset-x-0 top-1/2 -translate-y-1/2 text-center text-[9px] font-bold font-mono text-white opacity-0 group-hover/tooltip:opacity-100 pointer-events-none transition-opacity bg-black/60 py-0.5">
-                      SC:{row.stacruz}
-                    </span>
-                  </div>
-
-                  {/* Main Campus (Dominant stack) */}
-                  <div
-                    style={{ height: `${mainPct * 3}px` }}
-                    className="bg-[#660033] w-full relative group/tooltip"
-                  >
-                    <span className="absolute inset-x-0 top-1/2 -translate-y-1/2 text-center text-[9px] font-bold font-mono text-white opacity-0 group-hover/tooltip:opacity-100 pointer-events-none transition-opacity bg-black/60 py-0.5">
-                      M:{row.main}
-                    </span>
-                  </div>
-                </div>
-
-                {/* X-AXIS DATA LABEL */}
-                <div className="mt-3 text-center">
-                  <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500 block whitespace-nowrap">
-                    {row.semester}
-                  </span>
-                </div>
-              </div>
-            );
-          })}
+      {/* CHART.JS CANVAS VIEWPORT FRAME CONTAINER */}
+      <div className="overflow-x-auto no-scrollbar pt-2">
+        <div className="min-w-[700px] h-[340px] relative">
+          <Bar data={chartData} options={options} />
         </div>
       </div>
 
