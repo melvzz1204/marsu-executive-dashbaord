@@ -1,5 +1,5 @@
 // controllers/globalRecognitionController.js
-const GlobalRecognition = require("../models/globalRecognitionModel");
+const GlobalRecognition = require("../../models/achievements/globalRecognitionModel");
 
 // @desc    Get all global recognition matrix cards for a college
 // @route   GET /api/v1/global-recognition
