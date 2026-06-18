@@ -4,12 +4,13 @@ const cors = require("cors");
 // 1. Import Route Files
 const authRoutes = require("./routes/authRoutes");
 const globalRecognitionRoutes = require("./routes/achievements/globalRecognitionRoutes");
+const licensurePerformanceRoutes = require("./routes/achievements/licensurePerformanceRoutes"); 
 /* const analyticsRoutes = require("./routes/analyticsRoutes"); */
 
 const app = express();
 const corsOptions = {
   origin: ["http://localhost:5173", "http://127.0.0.1:5173"],
-  methods: ["GET", "POST", "PUT", "DELETE"],
+  methods: ["GET", "POST", "PUT", "PATCH", "DELETE"], // 💡 Added "PATCH" to allowed methods
   credentials: true,
 };
 
@@ -24,7 +25,8 @@ app.use((req, res, next) => {
 
 // 2. Mount Route Files
 app.use("/api/v1/auth", authRoutes);
-app.use("/api/v1/global-recognition", globalRecognitionRoutes); // <-- Added this
+app.use("/api/v1/global-recognition", globalRecognitionRoutes); 
+app.use("/api/v1/licensure-performance", licensurePerformanceRoutes); // 💡 Mounted Licensure Path
 
 // Catch-All 404 Middleware
 app.use((req, res) => {
