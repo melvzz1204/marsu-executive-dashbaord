@@ -1,5 +1,3 @@
-import React from "react";
-
 // Local static data block to prevent import errors
 const ENROLLMENT_GROWTH_KPI = {
   percentage: "5.34%",
