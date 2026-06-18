@@ -1,7 +1,6 @@
 import ImpactRankings from "../staticData/achievements/impactRankings.jsx";
 import LicensureExam from "../staticData/achievements/licensureData.jsx";
 import LetPerformanceExam from "../staticData/achievements/letPerformance.jsx";
-import Enrollments from "../staticData/enrollments/undergradEnrollmentData.jsx";
 
 export default function AchievementsCharts() {
   return (
@@ -12,7 +11,6 @@ export default function AchievementsCharts() {
       <LicensureExam />
       {/* PRC National LET Top 10 Benchmark Chart */}
       <LetPerformanceExam />
-      <Enrollments />
     </div>
   );
 }
