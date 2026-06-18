@@ -159,3 +159,4 @@ export function ExecutiveKPIs() {
     </div>
   );
 }
+export default ExecutiveKPIs;
