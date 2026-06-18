@@ -1,4 +1,5 @@
 import marsuLogo from "../assets/marsu-logo.png";
+import AchievementsCharts from "./AchievementsCharts";
 
 const Sidebar = ({
   currentTab,
@@ -28,7 +29,108 @@ const Sidebar = ({
         </svg>
       ),
     },
+    /*    higher education  */
     {
+      id: "Higher Education",
+      label: "Higher Education",
+      icon: (
+        <svg
+          className="w-5 h-5"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          viewBox="0 0 24 24"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M4.26 10.147L12 6.5l7.74 3.647M4.26 10.147l6.727 3.176a1.25 1.25 0 001.026 0l6.727-3.176M4.26 10.147V16.25c0 .621.504 1.125 1.125 1.125h13.25c.621 0 1.125-.504 1.125-1.125v-6.103M12 18.75V21m-4.5-2.25V21m9-2.25V21"
+          />
+        </svg>
+      ),
+    },
+    /*    Advance education  */
+    {
+      id: "Advance Education",
+      label: "Advance Education",
+      icon: (
+        <svg
+          className="w-5 h-5"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          viewBox="0 0 24 24"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M12 21V10m0 0L7.5 6.5M12 10l4.5-3.5M3 21h18M4 21V10h16v11M12 3L3 7h18l-9-4z"
+          />
+        </svg>
+      ),
+    },
+    /* Research */
+    {
+      id: "research",
+      label: "Research",
+      icon: (
+        <svg
+          className="w-5 h-5"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          viewBox="0 0 24 24"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"
+          />
+        </svg>
+      ),
+    },
+    /* Support to operation */
+    {
+      id: "support to operation",
+      label: "Support to Operation",
+      icon: (
+        <svg
+          className="w-5 h-5"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          viewBox="0 0 24 24"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"
+          />
+        </svg>
+      ),
+    },
+    /* General Administration and Support Services*/
+    {
+      id: "general administration",
+      label: "General Administration Support Services",
+      icon: (
+        <svg
+          className="w-5 h-5"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          viewBox="0 0 24 24"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"
+          />
+        </svg>
+      ),
+    },
+    /*   Academic performance */
+    /*  {
       id: "Academic Performance",
       label: "Academic Performance",
       icon: (
@@ -46,7 +148,8 @@ const Sidebar = ({
           />
         </svg>
       ),
-    },
+    }, */
+    /*     Achievements */
     {
       id: "achievements",
       label: "Achievements",
@@ -66,6 +169,7 @@ const Sidebar = ({
         </svg>
       ),
     },
+    /*  Enrollment */
     {
       id: "enrollment",
       label: "Enrollments",
@@ -85,25 +189,8 @@ const Sidebar = ({
         </svg>
       ),
     },
-    {
-      id: "research",
-      label: "Research & Extension",
-      icon: (
-        <svg
-          className="w-5 h-5"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          viewBox="0 0 24 24"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"
-          />
-        </svg>
-      ),
-    },
+
+    /* Budget utilization */
     {
       id: "budget",
       label: "Budget Utilization",
@@ -123,6 +210,7 @@ const Sidebar = ({
         </svg>
       ),
     },
+    /*  Reports */
     {
       id: "reports", // Swapped from "Report" to matching lowercase routing state
       label: "Reports",
