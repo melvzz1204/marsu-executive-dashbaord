@@ -29,8 +29,6 @@ const Dashboard = () => {
             Log Out
           </button>
         </div>
-
-        {/* Render Chart Framework */}
         <EnrollmentChart />
       </div>
     </div>

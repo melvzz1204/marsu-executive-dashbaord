@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import Sidebar from "../components/Sidebar";
 import ExecutiveKPIs from "../components/ExecutiveKPIs";
 import EnrollmentChart from "../components/EnrollmentChart";
-import AcademicPerformance from "../components/AcademicPerformance";
 import ResearchMetrics from "../components/ResearchMetricsChart";
 import Achievements from "../components/AchievementsCharts";
 import BudgetUtilization from "../components/BudgetUtilizationChart";
@@ -286,16 +285,6 @@ function MainDashboard() {
               <div>
                 <DistributionPieWidget isDarkMode={isDarkMode} />
               </div>
-            </div>
-          )}
-          {currentTab === "Academic Performance" && (
-            <div className="space-y-10 animate-fade-in">
-              <AcademicPerformance isDarkMode={isDarkMode} />
-              <p>
-                This data monitors how effectively students are moving through
-                the educational pipeline. It is structural, continuous, and
-                highly quantitative.
-              </p>
             </div>
           )}
           {currentTab === "achievements" && (
