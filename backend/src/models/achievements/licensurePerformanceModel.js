@@ -46,7 +46,6 @@ const LicensurePerformanceSchema = new mongoose.Schema({
     },
     variance: {
       type: Number,
-      required: [true, "Please specify calculated performance delta/variance (e.g., 8.93)"],
     }
   },
   institutionalContext: {
@@ -71,11 +70,17 @@ const LicensurePerformanceSchema = new mongoose.Schema({
 });
 
 // Pre-save middleware to automatically calculate the variance if it's not sent explicitly
-LicensurePerformanceSchema.pre("save", function (next) {
-  if (this.summaryKpis && this.summaryKpis.actual !== undefined && this.summaryKpis.target !== undefined) {
-    this.summaryKpis.variance = parseFloat((this.summaryKpis.actual - this.summaryKpis.target).toFixed(2));
+LicensurePerformanceSchema.pre("save", async function () {
+  // Only calculate if actual and target are present, and variance wasn't manually provided
+  if (
+    this.summaryKpis && 
+    this.summaryKpis.actual !== undefined && 
+    this.summaryKpis.target !== undefined &&
+    this.summaryKpis.variance === undefined
+  ) {
+    const calculatedVariance = this.summaryKpis.actual - this.summaryKpis.target;
+    this.summaryKpis.variance = parseFloat(calculatedVariance.toFixed(2));
   }
-  next();
 });
 
 module.exports = mongoose.model("LicensurePerformance", LicensurePerformanceSchema);
