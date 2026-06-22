@@ -4,7 +4,8 @@ const cors = require("cors");
 // 1. Import Route Files
 const authRoutes = require("./routes/authRoutes");
 const globalRecognitionRoutes = require("./routes/achievements/globalRecognitionRoutes");
-const licensurePerformanceRoutes = require("./routes/achievements/licensurePerformanceRoutes"); 
+const licensurePerformanceRoutes = require("./routes/achievements/licensurePerformanceRoutes");
+const reportRoutes = require("./routes/reports/reportRoutes");
 /* const analyticsRoutes = require("./routes/analyticsRoutes"); */
 
 const app = express();
@@ -26,7 +27,8 @@ app.use((req, res, next) => {
 // 2. Mount Route Files
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/global-recognition", globalRecognitionRoutes); 
-app.use("/api/v1/licensure-performance", licensurePerformanceRoutes); // 💡 Mounted Licensure Path
+app.use("/api/v1/licensure-performance", licensurePerformanceRoutes);
+app.use("/api/v1/reports", reportRoutes);
 
 // Catch-All 404 Middleware
 app.use((req, res) => {
