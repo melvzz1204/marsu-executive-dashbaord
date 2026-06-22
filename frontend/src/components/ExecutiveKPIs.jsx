@@ -1,4 +1,3 @@
-// Individual reusable KPI card with modern micro-interactions
 const KPICard = ({
   title,
   value,
@@ -60,7 +59,6 @@ const KPICard = ({
 };
 
 export function ExecutiveKPIs() {
-  // Institutional Core KPIs integrated into your brand colors
   const kpiData = [
     {
       title: "Total System Enrollment",
@@ -101,13 +99,27 @@ export function ExecutiveKPIs() {
       icon: () => <span className="text-[#600018] font-bold text-base">₱</span>,
     },
     {
-      title: "Active Institutional Grants",
-      value: "45",
-      metricContext: "projects",
-      change: "-3.1%",
-      isPositive: false,
-      colorClass: "bg-rose-500",
-      icon: () => <span className="drop-shadow-sm">🏆</span>,
+      title: "Graduate Employability Rate",
+      value: "84.6%",
+      metricContext: "employed within 12 mos",
+      change: "+4.2%",
+      isPositive: true,
+      colorClass: "bg-emerald-500",
+      icon: () => (
+        <svg
+          className="w-5 h-5 text-white drop-shadow-sm"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          viewBox="0 0 24 24"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+          />
+        </svg>
+      ),
     },
     {
       title: "Faculty Publication Rate",
@@ -147,5 +159,4 @@ export function ExecutiveKPIs() {
     </div>
   );
 }
-
 export default ExecutiveKPIs;

@@ -38,8 +38,6 @@ function ResearchMetrics({ isDarkMode }) {
       },
     ],
   };
-
-  // 🌟 FIXED: Axis text and grid lines are locked to dark/light variants that pop beautifully on a WHITE background
   const chartOptions = {
     responsive: true,
     maintainAspectRatio: false,

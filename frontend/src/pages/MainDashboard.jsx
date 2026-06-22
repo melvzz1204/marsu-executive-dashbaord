@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import Sidebar from "../components/Sidebar";
 import ExecutiveKPIs from "../components/ExecutiveKPIs";
 import EnrollmentChart from "../components/EnrollmentChart";
-import AcademicPerformance from "../components/AcademicPerformance";
 import ResearchMetrics from "../components/ResearchMetricsChart";
 import Achievements from "../components/AchievementsCharts";
 import BudgetUtilization from "../components/BudgetUtilizationChart";
@@ -12,20 +11,10 @@ import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { Pie } from "react-chartjs-2";
 import HigherEducation from "../components/HigherEducation";
 import AdvanceEducation from "../components/AdvanceEducation";
+import Footer from "../components/Footer";
+import GeneralAdministration from "../components/GeneralAdministraion";
+import SupportToOperation from "../components/SupportToOperation";
 ChartJS.register(ArcElement, Tooltip, Legend);
-
-if (typeof document !== "undefined") {
-  const styleId = "oswald-font-import";
-  if (!document.getElementById(styleId)) {
-    const style = document.createElement("style");
-    style.id = styleId;
-    style.innerHTML = `
-      @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&display=swap');
-      .font-oswald { font-family: 'Oswald', sans-serif; }
-    `;
-    document.head.appendChild(style);
-  }
-}
 
 const DistributionPieWidget = () => {
   const data = {
@@ -168,7 +157,6 @@ function MainDashboard() {
           : "bg-[#f8f4f4ac] text-slate-800"
       }`}
     >
-      {/* Sidebar Injection Layer */}
       <Sidebar
         currentTab={currentTab}
         setCurrentTab={setCurrentTab}
@@ -288,14 +276,21 @@ function MainDashboard() {
               </div>
             </div>
           )}
-          {currentTab === "Academic Performance" && (
-            <div className="space-y-10 animate-fade-in">
-              <AcademicPerformance isDarkMode={isDarkMode} />
-              <p>
-                This data monitors how effectively students are moving through
-                the educational pipeline. It is structural, continuous, and
-                highly quantitative.
-              </p>
+          {currentTab === "general administration" && (
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-10 animate-fade-in">
+              <div className="lg:col-span-2">
+                <GeneralAdministration isDarkMode={isDarkMode} />
+              </div>
+              <div>
+                <DistributionPieWidget isDarkMode={isDarkMode} />
+              </div>
+            </div>
+          )}
+          {currentTab === "support to operation" && (
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-10 animate-fade-in">
+              <div className="lg:col-span-2">
+                <SupportToOperation isDarkMode={isDarkMode} />
+              </div>
             </div>
           )}
           {currentTab === "achievements" && (
@@ -308,7 +303,6 @@ function MainDashboard() {
               <EnrollmentChart isDarkMode={isDarkMode} />
             </div>
           )}
-
           {currentTab === "budget" && (
             <div className="animate-fade-in">
               <BudgetUtilization isDarkMode={isDarkMode} />
@@ -321,21 +315,7 @@ function MainDashboard() {
           )}
         </main>
 
-        {/* Global Footer */}
-        <footer
-          className={`mt-auto px-8 lg:px-12 py-6 border-t flex flex-col sm:flex-row justify-between text-xs font-medium font-oswald transition-colors duration-300 ${
-            isDarkMode
-              ? "bg-slate-800/50 border-slate-800 text-slate-500"
-              : "bg-white border-slate-200 text-slate-400"
-          }`}
-        >
-          <p>© 2026 Marinduque State University. All rights reserved.</p>
-          <p
-            className={`tracking-wide font-bold uppercase ${isDarkMode ? "text-rose-400" : "text-[#600018]"}`}
-          >
-            Confidential / Governance Intelligence Matrix
-          </p>
-        </footer>
+        <Footer />
       </div>
 
       {isLoggingOut && (
