@@ -7,10 +7,10 @@ const {
   createMetricCard,
   updateMetricCard,
   deleteMetricCard,
-} = require("../controllers/globalRecognitionController");
+} = require("../../controllers/achievements/globalRecognitionController");
 
 // Assuming your auth middleware file provides protect and authorize methods
-const { protect, authorize } = require("../middleware/authMiddleware"); 
+const { protect, authorize } = require("../../middleware/authMiddleware"); 
 
 // All matrix routes require authentication
 router.use(protect);
