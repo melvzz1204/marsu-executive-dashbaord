@@ -23,7 +23,7 @@ ChartJS.register(
 );
 
 export default function AccreditationDashboard() {
-  // Track which branch is selected for the program details list
+  // Track which campus/branch is selected for the program details list
   const [selectedBranchIdx, setSelectedBranchIdx] = useState(0);
   const currentYear = useMemo(() => new Date().getFullYear(), []); // 2026
 
@@ -101,7 +101,7 @@ export default function AccreditationDashboard() {
     labels: processedData.branchLabels,
     datasets: [
       {
-        label: "Programs Monitored",
+        label: "Total Programs",
         data: processedData.branchProgramCounts,
         backgroundColor: "#660033",
         borderRadius: 6,
@@ -122,7 +122,7 @@ export default function AccreditationDashboard() {
             Institutional Accreditation
           </h1>
           <p className="text-xs text-slate-500 font-medium mt-0.5">
-            System overview across regional satellite nodes
+            Overview of academic programs across all campuses
           </p>
         </div>
 
@@ -131,42 +131,42 @@ export default function AccreditationDashboard() {
           <div className="relative bg-[#660033] text-white p-6 rounded-2xl shadow-[0_4px_0_0_#D4AF37] flex flex-col justify-between min-h-[120px]">
             <div>
               <span className="text-[10px] font-extrabold tracking-wider text-slate-300 block uppercase font-sans mb-1">
-                Monitored Footprint
+                Total Programs
               </span>
               <span className="text-3xl font-black text-[#D4AF37] block font-sans tracking-tight leading-none my-1">
                 {processedData.totalPrograms}
               </span>
             </div>
             <span className="text-[11px] font-medium text-slate-200/90 block font-sans capitalize tracking-wide mt-2 pt-2 border-t border-white/10">
-              registered qualifications
+              tracked courses of study
             </span>
           </div>
 
           <div className="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-[0_4px_20px_rgba(0,0,0,0.01)] flex flex-col justify-between">
             <div>
               <span className="text-[10px] font-extrabold uppercase tracking-wider text-slate-400 font-sans block mb-1">
-                Compliant Status
+                Active Accreditations
               </span>
               <h3 className="text-3xl font-black text-slate-900 font-sans tracking-tight mt-1">
                 {processedData.ongoingCount}
               </h3>
             </div>
             <span className="text-[11px] font-semibold text-emerald-600 tracking-wide mt-2 pt-2 border-t border-slate-100 capitalize">
-              active candidate alignment
+              up to date or in progress
             </span>
           </div>
 
           <div className="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-[0_4px_20px_rgba(0,0,0,0.01)] flex flex-col justify-between">
             <div>
               <span className="text-[10px] font-extrabold uppercase tracking-wider text-slate-400 font-sans block mb-1">
-                Action Pending Review
+                Expired / Pending Review
               </span>
               <h3 className="text-3xl font-black text-rose-700 font-sans tracking-tight mt-1">
                 {processedData.expiredCount}
               </h3>
             </div>
             <span className="text-[11px] font-bold text-rose-500 capitalize tracking-wide mt-2 pt-2 border-t border-slate-100">
-              past accreditation term cycle
+              requires immediate renewal
             </span>
           </div>
         </div>
@@ -175,7 +175,7 @@ export default function AccreditationDashboard() {
         <div className="grid grid-cols-1 md:grid-cols-5 gap-6">
           <div className="bg-white p-6 rounded-2xl border border-slate-200/70 shadow-[0_4px_20px_rgba(0,0,0,0.02)] md:col-span-2 flex flex-col justify-start">
             <span className="text-[10px] font-bold uppercase tracking-wider font-mono text-slate-400 block mb-4">
-              Tier Aggregation Mix
+              Breakdown by Level
             </span>
             <div className="w-full max-w-[210px] mx-auto pt-2">
               <Doughnut
@@ -217,7 +217,7 @@ export default function AccreditationDashboard() {
 
           <div className="bg-white p-6 rounded-2xl border border-slate-200/70 shadow-[0_4px_20px_rgba(0,0,0,0.02)] md:col-span-3 flex flex-col justify-start">
             <span className="text-[10px] font-bold uppercase tracking-wider font-mono text-slate-400 block mb-4">
-              Program Concentration per Branch
+              Programs per Campus
             </span>
             <div className="w-full h-full min-h-[220px] flex items-center">
               <Bar
@@ -236,16 +236,16 @@ export default function AccreditationDashboard() {
           </div>
         </div>
 
-        {/* NEW SECTION: PROGRAM ACCREDITATION REGISTRY DETAIL ROWS */}
+        {/* PROGRAM ACCREDITATION REGISTRY DETAIL ROWS */}
         <div className="bg-white rounded-2xl border border-slate-200/70 shadow-[0_4px_20px_rgba(0,0,0,0.01)] overflow-hidden flex flex-col">
           {/* Section Heading & Interactive Tab Selection Bar */}
           <div className="p-6 pb-2 border-b border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
               <span className="text-[10px] font-bold uppercase tracking-wider font-mono text-slate-400 block">
-                Accredited Program Registry
+                Program Registry
               </span>
               <h2 className="text-base font-black text-slate-900 font-sans tracking-tight mt-0.5">
-                Detailed Qualifications Matrix
+                Detailed Status List
               </h2>
             </div>
 
@@ -271,7 +271,6 @@ export default function AccreditationDashboard() {
           <div className="p-6 max-h-[360px] overflow-y-auto no-scrollbar">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               {activeBranchPrograms.map((prog) => {
-                // Determine clean runtime variables for state flags
                 let normStatus = prog.accreditationStatus;
                 if (normStatus === "Level 3")
                   normStatus = "Level III Re-Accredited";
@@ -293,12 +292,11 @@ export default function AccreditationDashboard() {
                         {prog.programName}
                       </span>
                       <span className="text-[10px] font-mono text-slate-400 mt-1 block">
-                        Est: {prog.yearOfInitialOperation || "N/A"}
+                        Started: {prog.yearOfInitialOperation || "N/A"}
                       </span>
                     </div>
 
                     <div className="text-right shrink-0 pt-0.5">
-                      {/* Dynamic status badge allocation based on state flags */}
                       <span
                         className={`inline-block px-2 py-0.5 rounded-md text-[9px] font-black uppercase tracking-wider mb-1 ${
                           isCandidacy
