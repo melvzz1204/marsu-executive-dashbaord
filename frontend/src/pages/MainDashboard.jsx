@@ -8,7 +8,6 @@ import BudgetUtilization from "../components/BudgetUtilizationChart";
 import Report from "../components/Reports";
 import api from "../api/axios"; //
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
-import { Pie } from "react-chartjs-2";
 import HigherEducation from "../components/HigherEducation";
 import AdvanceEducation from "../components/AdvanceEducation";
 import Footer from "../components/Footer";
@@ -16,7 +15,7 @@ import GeneralAdministration from "../components/GeneralAdministraion";
 import SupportToOperation from "../components/SupportToOperation";
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-const DistributionPieWidget = () => {
+/* const DistributionPieWidget = () => {
   const data = {
     labels: [
       "Computing (CICS)",
@@ -63,23 +62,7 @@ const DistributionPieWidget = () => {
       },
     },
   };
-  return (
-    <div className="p-8 rounded-3xl shadow-[0_20px_50px_-12px_rgba(0,0,0,0.03)] border border-slate-100 bg-white text-slate-900 h-full flex flex-col justify-between transition-all duration-300">
-      <div>
-        <span className="text-[10px] font-bold uppercase tracking-widest block mb-1 text-[#660033]/80">
-          Institutional Analytics
-        </span>
-        <h2 className="text-xl font-extrabold tracking-tight font-oswald uppercase text-slate-900">
-          Share Density
-        </h2>
-      </div>
-
-      <div className="h-[240px] w-full my-auto flex items-center justify-center pt-4">
-        <Pie data={data} options={options} />
-      </div>
-    </div>
-  );
-};
+}; */
 
 function MainDashboard() {
   const [currentTab, setCurrentTab] = useState("dashboard");
@@ -88,7 +71,7 @@ function MainDashboard() {
     "Loading Executive Profile...",
   );
   const [userRole, setUserRole] = useState("staff");
-  const [userInitials, setUserInitials] = useState(".."); // 🛠️ FIXED: Re-added initials state hook tracker
+  const [userInitials, setUserInitials] = useState("..");
   const [isLoggingOut, setIsLoggingOut] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
@@ -246,14 +229,7 @@ function MainDashboard() {
             <div className="space-y-10 animate-fade-in">
               <ExecutiveKPIs isDarkMode={isDarkMode} />
               <EnrollmentChart isDarkMode={isDarkMode} />
-              <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
-                <div className="lg:col-span-2">
-                  <ResearchMetrics isDarkMode={isDarkMode} />
-                </div>
-                <div>
-                  <DistributionPieWidget isDarkMode={isDarkMode} />
-                </div>
-              </div>
+              <ResearchMetrics isDarkMode={isDarkMode} />
             </div>
           )}
           {currentTab === "Higher Education" && (
@@ -267,13 +243,8 @@ function MainDashboard() {
             </div>
           )}
           {currentTab === "research" && (
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-10 animate-fade-in">
-              <div className="lg:col-span-2">
-                <ResearchMetrics isDarkMode={isDarkMode} />
-              </div>
-              <div>
-                <DistributionPieWidget isDarkMode={isDarkMode} />
-              </div>
+            <div className="space-y-10 animate-fade-in animate-fade-in">
+              <ResearchMetrics isDarkMode={isDarkMode} />
             </div>
           )}
           {currentTab === "general administration" && (

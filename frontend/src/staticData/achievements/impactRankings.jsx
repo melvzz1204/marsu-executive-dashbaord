@@ -53,16 +53,17 @@ export default function impactRankings() {
                 {ranking.sdgMetrics.map((metric, i) => (
                   <div
                     key={i}
-                    className="bg-slate-50/60 border border-slate-100 p-3 rounded-xl flex items-center justify-between transition-colors hover:bg-slate-50"
+                    className="bg-slate-50/60 border border-slate-100 p-3 rounded-xl flex items-start justify-between gap-3 min-w-0 transition-colors hover:bg-slate-50"
                   >
-                    <span className="font-bold text-slate-700 tracking-wide text-xs truncate pr-2">
+                    <span className="font-bold text-slate-700 tracking-wide text-xs break-words leading-normal block">
+                      {" "}
                       {metric.sdg}
                     </span>
-                    <div className="text-right shrink-0">
-                      <span className="font-black text-[#660033] block text-sm uppercase">
+                    <div className="text-right shrink-0 pt-0.5">
+                      <span className="font-black text-[#660033] block text-sm uppercase tracking-tight leading-none">
                         RANK {metric.rank}
                       </span>
-                      <span className="text-[9px] text-slate-400 block uppercase tracking-wider">
+                      <span className="text-[9px] text-slate-400 block uppercase tracking-wider mt-1.5 leading-none">
                         out of {metric.total}
                       </span>
                     </div>
