@@ -507,7 +507,6 @@ export default function EnrollmentDashboard({ isPublicView = false }) {
   }
 
   const kpis = currentData?.summaryKpis || {};
-
   return (
     <div className="min-h-screen min-w-0 bg-white text-slate-800 antialiased rounded-xl sm:rounded-2xl font-sans">
       <div className="w-full space-y-4 p-3 sm:space-y-6 sm:p-6 lg:px-8 lg:py-10 2xl:px-10">
@@ -632,11 +631,14 @@ export default function EnrollmentDashboard({ isPublicView = false }) {
                         ),
                         borderColor: PALETTE.gold,
                         backgroundColor: "rgba(212, 175, 55, 0.10)",
-                        borderWidth: 2.5,
-                        pointRadius: 2.5,
-                        pointHoverRadius: 4,
+                        borderWidth: 3.5,
+                        pointRadius: 5,
+                        pointBackgroundColor: "#ffffff",
+                        pointBorderColor: PALETTE.gold,
+                        pointBorderWidth: 2,
+                        pointHoverRadius: 8,
                         fill: true,
-                        tension: 0.3,
+                        tension: 0.35,
                       },
                     ],
                   }}
