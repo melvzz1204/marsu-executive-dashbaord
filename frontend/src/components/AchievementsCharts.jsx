@@ -4,7 +4,7 @@ import BoardExam from "../staticData/boardExam/boardExam.jsx";
 
 export default function AchievementsCharts() {
   return (
-    <div className="space-y-8 animate-fade-in font-oswald">
+    <div className="space-y-8 animate-fade-in">
       {/* Global University Matrix */}
       <ImpactRankings />
       {/* Program Registry Breakdown Audit */}

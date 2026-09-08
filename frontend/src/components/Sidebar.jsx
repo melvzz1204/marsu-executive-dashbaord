@@ -320,7 +320,7 @@ const Sidebar = ({
 
             {isOpen && (
               <div className="min-w-0 animate-fade-in">
-                <h1 className="text-l font-extrabold uppercase tracking-wide leading-tight font-oswald text-white">
+                <h1 className="text-l font-extrabold tracking-wide leading-tight text-white">
                   Marinduque State <br /> University
                 </h1>
                 <p className="mt-0.5 text-[9px] font-bold uppercase tracking-widest text-[#D4AF37]">

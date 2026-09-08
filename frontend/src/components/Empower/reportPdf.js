@@ -1,15 +1,3 @@
-/**
- * Data-driven PDF report generator — presentation edition.
- *
- * Draws the Empower Intelligence Report directly with jsPDF primitives
- * (text, rectangles, lines) from the report tool data — no DOM/canvas
- * rendering, so it is immune to CSS/color/backdrop-rendering issues.
- *
- * Design: presentation-ready — hero header band, filled section bars,
- * KPI stat cards, bordered chart panels with value labels and styled
- * zebra tables. Spacing is kept tight to avoid large empty gaps.
- */
-
 import { jsPDF } from "jspdf";
 import { getInsights } from "./reportInsights.js";
 
@@ -62,11 +50,9 @@ const TOOL_TITLES = {
     "Target vs actual passing performance",
   ],
 };
-
 // ---------------------------------------------------------------------------
 // KPI / chart / table extractors per tool
 // ---------------------------------------------------------------------------
-
 const extractors = {
   getEnrollmentSnapshot: (d) => ({
     kpis: [

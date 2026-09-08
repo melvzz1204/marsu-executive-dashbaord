@@ -57,7 +57,7 @@ function MainDashboard() {
 
   return (
     <div
-      className={`oswald-brand relative flex h-dvh overflow-hidden antialiased transition-colors duration-300 ${
+      className={`relative flex h-dvh overflow-hidden antialiased transition-colors duration-300 ${
         isDarkMode
           ? "bg-slate-900 text-slate-100"
           : "bg-[#f8f4f4ac] text-slate-800"
@@ -150,7 +150,7 @@ function MainDashboard() {
                 </span>
               </div>
               <h2
-                className={`text-xl sm:text-2xl font-extrabold tracking-tight font-oswald uppercase leading-tight ${
+                className={`text-xl sm:text-2xl font-extrabold tracking-tight leading-tight ${
                   isDarkMode ? "text-white" : "text-[#600018]"
                 }`}
               >
