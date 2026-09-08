@@ -24,6 +24,14 @@ const CHAT_NUDGES = [
   "Curious about research or licensure?",
 ];
 
+/** One-tap example questions shown before the first exchange. */
+const SUGGESTIONS = [
+  "Enrollment trend this semester",
+  "Licensure passing rates",
+  "Research output highlights",
+  "Budget utilization status",
+];
+
 /** Render assistant text with simple markdown-ish formatting (bold + bullets). */
 const renderFormattedText = (text) => {
   if (!text) return null;
@@ -70,6 +78,7 @@ const FloatingChatbot = () => {
   } = useChat();
   const scrollRef = useRef(null);
   const inputRef = useRef(null);
+  const fabRef = useRef(null);
 
   // Auto-scroll to the newest message while streaming.
   useEffect(() => {
@@ -81,6 +90,21 @@ const FloatingChatbot = () => {
   useEffect(() => {
     if (isOpen) inputRef.current?.focus();
   }, [isOpen]);
+
+  // Close the panel with Escape and return focus to the launcher button.
+  useEffect(() => {
+    if (!isOpen) return;
+    const handleKeyDown = (event) => {
+      if (event.key === "Escape") {
+        event.preventDefault();
+        stop();
+        setIsOpen(false);
+        fabRef.current?.focus();
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [isOpen, stop]);
 
   // Rotate quiet invitations while the assistant is closed, then let them disappear.
   useEffect(() => {
@@ -99,6 +123,12 @@ const FloatingChatbot = () => {
     e.preventDefault();
     if (!input.trim() || isStreaming) return;
     const text = input;
+    setInput("");
+    sendMessage(text);
+  };
+
+  const handleSuggestion = (text) => {
+    if (isStreaming) return;
     setInput("");
     sendMessage(text);
   };
@@ -143,6 +173,17 @@ const FloatingChatbot = () => {
             </div>
 
             <div className="flex items-center gap-1">
+              {/* Stop generation */}
+              {isStreaming && (
+                <button
+                  onClick={stop}
+                  aria-label="Stop response"
+                  title="Stop response"
+                  className="rounded-full border border-[#D4AF37]/60 bg-[#D4AF37]/15 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-[#D4AF37] hover:bg-[#D4AF37]/25 transition-colors"
+                >
+                  Stop
+                </button>
+              )}
               {/* Reset conversation */}
               <button
                 onClick={reset}
@@ -190,8 +231,36 @@ const FloatingChatbot = () => {
           {/* Chat Body */}
           <div
             ref={scrollRef}
-            className="h-[340px] bg-[#FAFAFA] p-4 overflow-y-auto flex flex-col gap-4 no-scrollbar"
+            className="h-[60vh] max-h-[420px] min-h-[260px] bg-[#FAFAFA] p-4 overflow-y-auto flex flex-col gap-4 no-scrollbar"
           >
+            {/* One-tap starters shown before the first user message */}
+            {messages.length === 1 && (
+              <div className="space-y-2" aria-label="Suggested questions">
+                {SUGGESTIONS.map((suggestion) => (
+                  <button
+                    key={suggestion}
+                    type="button"
+                    onClick={() => handleSuggestion(suggestion)}
+                    disabled={isStreaming}
+                    className="w-full text-left text-[11px] font-semibold px-3.5 py-2.5 rounded-full border border-[#D4AF37]/40 bg-white text-[#600018] hover:bg-[#D4AF37]/10 hover:border-[#D4AF37] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    {suggestion}
+                  </button>
+                ))}
+              </div>
+            )}
+
+            {/* Visually hidden live region for screen-reader updates */}
+            <div className="sr-only" role="status" aria-live="polite">
+              {isStreaming
+                ? "Empower AI is responding"
+                : error
+                  ? `Error: ${error}`
+                  : messages.length > 1
+                    ? "Empower AI response ready"
+                    : ""}
+            </div>
+
             {messages.map((msg, i) => (
               <div
                 key={i}
@@ -246,7 +315,6 @@ const FloatingChatbot = () => {
               </div>
             ))}
 
-            {/* Tool status indicator */}
             {/* Reasoning / thinking indicator — shown while the model is reasoning */}
             {isStreaming && reasoning && !toolStatus && (
               <div className="flex gap-2 max-w-[85%]">
@@ -410,6 +478,7 @@ const FloatingChatbot = () => {
 
       {/* 🔴 Floating Action Button */}
       <button
+        ref={fabRef}
         onClick={() => {
           setIsNudgeVisible(false);
           setIsOpen(!isOpen);
@@ -418,7 +487,7 @@ const FloatingChatbot = () => {
           isOpen ? "Close Empower AI assistant" : "Open Empower AI assistant"
         }
         aria-expanded={isOpen}
-        className={`floating-chat-fab group relative w-20 h-20 rounded-[1.5rem] flex items-center justify-center shadow-[0_12px_35px_rgba(40,0,15,0.3)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_16px_40px_rgba(40,0,15,0.38)] ${
+        className={`floating-chat-fab group relative w-16 h-16 sm:w-20 sm:h-20 rounded-2xl sm:rounded-[1.5rem] flex items-center justify-center shadow-[0_12px_35px_rgba(40,0,15,0.3)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_16px_40px_rgba(40,0,15,0.38)] ${
           isOpen
             ? "bg-slate-800 text-white"
             : "bg-gradient-to-br from-[#600018] to-[#3A0010] text-[#D4AF37] border border-[#D4AF37]/30"
